@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>PC-creator</title>
@@ -12,6 +12,16 @@
         <p>Чтобы посмотреть список компьютерных комплектующих перейдите по кнопке меню "Каталог"</p>
         <p>Чтобы воспользоваться сборщиком ПК перейдите по кнопке меню "Сборщик ПК"</p>
         <p>Чтобы посмотреть информацию о сайте перейдите по кнопке меню "О нас"</p>
+    </div>
+    <div>
+
+        <table >
+            <tr th:each="videocard : ${videocards}">
+                <td th:text="${videocard.name}"></td>
+                <td th:text="${videocard.price}"></td>
+                <td th:text="${videocard.image}"></td>
+            </tr>
+        </table>
     </div>
 </body>
 </html>
