@@ -1,22 +1,23 @@
-//package app.entity;
-//
-//import javax.persistence.*;
-//import javax.validation.constraints.Size;
-//
-//@Entity
-//@Table(name = "user")
-//public class User {
-//
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private int id;
-//
-//    @Size(min = 6)
-//    private String nickname;
-//
-//    private String email;
-//
-//    @Size(min = 6)
-//    private String password;
-//
-//}
+package app.entity;
+
+import lombok.Data;
+import javax.persistence.*;
+
+@Data
+@Entity
+@Table(name = "my_user")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    private String username;
+    private int password;
+
+    public User() {
+    }
+    public User(String username, int password) {
+        this.username = username;
+        this.password = password;
+    }
+}

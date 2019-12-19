@@ -16,14 +16,10 @@ public class MainController {
     private ParserServiceImpl parserService;
 
     @GetMapping("/")
-    public String main(Model model) {
-        videoCardRepo.deleteAll();
+    public String main() {
+//        videoCardRepo.deleteAll();
 //        parserService.start();
-        model.addAttribute("videocards", videoCardRepo.findAll());
         return "main";
     }
-    @GetMapping("/catalog")
-    public String catalog() {
-        return "catalog";
-    }
+
 }

@@ -4,24 +4,16 @@
     <meta charset="UTF-8">
     <title>PC-creator</title>
     <link rel="stylesheet" href="/css/main.css">
-    <script src="/js/menubar.js"></script>
+
+    <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
 </head>
-<body onload="loadMenu()" >
+<body>
     <div id="menuBar"></div>
     <div id="info">
         <p>Чтобы посмотреть список компьютерных комплектующих перейдите по кнопке меню "Каталог"</p>
         <p>Чтобы воспользоваться сборщиком ПК перейдите по кнопке меню "Сборщик ПК"</p>
         <p>Чтобы посмотреть информацию о сайте перейдите по кнопке меню "О нас"</p>
     </div>
-    <div>
-
-        <table >
-            <tr th:each="videocard : ${videocards}">
-                <td th:text="${videocard.name}"></td>
-                <td th:text="${videocard.price}"></td>
-                <td th:text="${videocard.image}"></td>
-            </tr>
-        </table>
-    </div>
+    <script src="/js/menubar.js"></script>
 </body>
 </html>
