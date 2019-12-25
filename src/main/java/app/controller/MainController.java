@@ -1,5 +1,6 @@
 package app.controller;
 
+import app.UserInSystem;
 import app.repository.VideoCardRepo;
 import app.service.ParserService;
 import app.service.impl.ParserServiceImpl;
@@ -11,14 +12,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class MainController {
     @Autowired
-    private VideoCardRepo videoCardRepo;
-    @Autowired
     private ParserServiceImpl parserService;
+    @Autowired
+    private UserInSystem userInSystem;
 
     @GetMapping("/")
-    public String main() {
-//        videoCardRepo.deleteAll();
-//        parserService.start();
+    public String main(Model model) {
+        model.addAttribute("active", userInSystem.isActive());
         return "main";
     }
 

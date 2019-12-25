@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>PC-creator</title>
@@ -13,6 +13,8 @@
         <div id="leftMenu"></div>
     </div>
     <script src="/js/menubar.js"></script>
+    <script src="/js/account.js" th:if="${active}"></script>
+    <script src="/js/loginbtn.js" th:if="${not active}"></script>
     <script src="/js/catalog.js"></script>
 </body>
 </html>
