@@ -2,31 +2,31 @@
         document.getElementById("leftMenu").insertAdjacentHTML("afterbegin",
             "       <ul class='catalogBack'>\n" +
             "                <li class='catalog'>\n" +
-            "                    <a class=\"catalogButton\" href=\"/catalog/video_cards\" title=\"О нас\">Видеокарты</a>\n" +
+            "                    <a class=\"catalogButton\" href=\"/catalog/video_cards\" >Видеокарты</a>\n" +
             "                </li>\n" +
             "                <li class='catalog'>\n" +
-            "                    <a class=\"catalogButton\" href=\"/catalog/processors\" title=\"О нас\">Процессоры</a>\n" +
+            "                    <a class=\"catalogButton\" href=\"/catalog/processors\">Процессоры</a>\n" +
             "                </li>\n" +
             "                <li class='catalog'>\n" +
-            "                    <a class=\"catalogButton\" href=\"/catalog/motherboards\" title=\"О нас\">Материнки</a>\n" +
+            "                    <a class=\"catalogButton\" href=\"/catalog/motherboards\" >Материнки</a>\n" +
             "                </li>\n" +
             "                <li class='catalog'>\n" +
-            "                    <a class=\"catalogButton\" href=\"/catalog/hdd\" title=\"О нас\">Жёсткие диски</a>\n" +
+            "                    <a class=\"catalogButton\" href=\"/catalog/hdd\" >Жёсткие диски</a>\n" +
             "                </li>\n" +
             "                <li class='catalog'>\n" +
-            "                    <a class=\"catalogButton\" href=\"/catalog/ram\" title=\"О нас\">Оперативная память</a>\n" +
+            "                    <a class=\"catalogButton\" href=\"/catalog/ram\" >Оперативная память</a>\n" +
             "                </li>\n" +
             "                <li class='catalog'>\n" +
-            "                    <a class=\"catalogButton\" href=\"/catalog/ssd\" title=\"О нас\">SSD</a>\n" +
+            "                    <a class=\"catalogButton\" href=\"/catalog/ssd\" >SSD</a>\n" +
             "                </li>\n" +
             "                <li class='catalog'>\n" +
-            "                    <a class=\"catalogButton\" href=\"/catalog/power_supplies\" title=\"О нас\">Блоки питания</a>\n" +
+            "                    <a class=\"catalogButton\" href=\"/catalog/power_supplies\" >Блоки питания</a>\n" +
             "                </li>\n" +
             "                <li class='catalog'>\n" +
-            "                    <a class=\"catalogButton\" href=\"/catalog/coolers\" title=\"О нас\">Система охлаждения</a>\n" +
+            "                    <a class=\"catalogButton\" href=\"/catalog/coolers\" >Система охлаждения</a>\n" +
             "                </li>\n" +
             "                <li class='catalog'>\n" +
-            "                    <a class=\"catalogButton\" href=\"/catalog/computer_cases\" title=\"О нас\">Корпуса</a>\n" +
+            "                    <a class=\"catalogButton\" href=\"/catalog/computer_cases\" >Корпуса</a>\n" +
             "                </li>\n" +
             "            </ul>");
     })
