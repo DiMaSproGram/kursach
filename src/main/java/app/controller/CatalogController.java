@@ -13,24 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/catalog")
 public class CatalogController {
-//    @Autowired
-//    private VideoCardService videoCardService;
-//    @Autowired
-//    private ProcessorService processorService;
-//    @Autowired
-//    private MotherboardService motherboardService;
-//    @Autowired
-//    private HDDService hddService;
-//    @Autowired
-//    private RAMService ramService;
-//    @Autowired
-//    private SSDService ssdService;
-//    @Autowired
-//    private PowerSupplyService powerSupplyService;
-//    @Autowired
-//    private CoolerService coolerService;
-//    @Autowired
-//    private CompCaseService compCaseService;
     @Autowired
     private HardwareService hardwareService;
     @Autowired

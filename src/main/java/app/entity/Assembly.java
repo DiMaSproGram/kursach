@@ -12,13 +12,6 @@ public class Assembly {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToMany
-    @JoinColumn(name = "hardware_id")
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(name = "assembly_hardware", joinColumns = @JoinColumn(name = "assembly_id"), inverseJoinColumns = @JoinColumn(name = "hardware_id"))
-    @OrderColumn(name="hardware_index")
-    private Hardware[] hardware;
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "my_user_id")
     private User user;
@@ -26,8 +19,8 @@ public class Assembly {
     private double totalPrice;
 
     public Assembly(){}
-    public Assembly(Hardware[] hardware, User user, double totalPrice) {
-        this.hardware = hardware;
+    public Assembly(User user, double totalPrice) {
+//        this.assemblyHardware = assemblyHardware;
         this.user = user;
         this.totalPrice = totalPrice;
     }

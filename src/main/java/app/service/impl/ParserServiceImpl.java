@@ -49,14 +49,12 @@ public class ParserServiceImpl implements ParserService {
     @Override
     public void start() {
         try {
-//            hardwareService.deleteAll();
-//            if(!hardwareTypeService.isExist(1))
-//                for (ParserURL parserURL : ParserURL.values())
-//                    hardwareTypeService.addHardwareType(parserURL.getName());
-//            for (ParserURL parserURL : ParserURL.values())
-//                parsing(parserURL);
-            parsing(ParserURL.COOLERS_URL);
-            parsing(ParserURL.COMPUTER_CASE_URL);
+            hardwareService.deleteAll();
+            if(!hardwareTypeService.isExist(1))
+                for (ParserURL parserURL : ParserURL.values())
+                    hardwareTypeService.addHardwareType(parserURL.getName());
+            for (ParserURL parserURL : ParserURL.values())
+                parsing(parserURL);
         } catch (IOException e) {
             e.printStackTrace();
         }

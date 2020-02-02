@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 @Service
 public class CreatorServiceImpl implements CreatorService {
     enum Goals {
-        FOR_GAMES(new double[]{ 0.21, 0.4, 0.08, 0.08, 0.08, 0.05, 0.04, 0.04, 0.05}),
-        FOR_WORK(new double[]{ 0.4, 0.21, 0.08, 0.07, 0.08, 0.05, 0.04, 0.03, 0.03});
+        FOR_GAMES(new double[]{ 0.21, 0.4, 0.08, 0.08, 0.07, 0.05, 0.04, 0.04, 0.05}),
+        FOR_WORK(new double[]{ 0.4, 0.21, 0.08, 0.07, 0.07, 0.05, 0.04, 0.03, 0.03});
 
         private double[] arr;
         Goals(double[] arr){
@@ -36,24 +38,31 @@ public class CreatorServiceImpl implements CreatorService {
     }
     private Hardware getHardware(double referencePrice, int hardwareId){
         Iterable<Hardware> iterable;
-        double lowBound = 0.96;
+        HashSet<Hardware> titleSet = new HashSet<>();
+        double lowBound = 0.94;
         double upBound = 1.03;
         double tempPrice;
 
-        for (int i = 0; i < 10; ++i) {
+        for (int i = 0; i < 3; ++i) {
             iterable = hardwareService.getAllByType(hardwareId + 1);
             for (Hardware hardware : iterable) {
                 tempPrice = hardware.getPrice();
-                if (referencePrice <= tempPrice)
-                    return hardware;
+                if (referencePrice <= tempPrice && i == 0) {
+                    titleSet.add(hardware);
+                    break;
+                }
                 if (tempPrice > referencePrice * upBound)
                     continue;
                 if (tempPrice > referencePrice * lowBound)
-                    return hardware;
+                    titleSet.add(hardware);
             }
+            if(!titleSet.isEmpty())
+                break;
             lowBound -= 0.04;
             upBound += 0.02;
         }
-        return null;
+        List<Hardware> list = new ArrayList<>(titleSet);
+        System.out.println(list);
+        return list.get((int) (Math.random() * (titleSet.size() - 1)));
     }
 }

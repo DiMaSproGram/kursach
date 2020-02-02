@@ -7,7 +7,7 @@ $(document).ready(function f() {
         "            <li class='menu'>\n" +
         "                <a class=\"menuButton\" href=\"/creator\" title=\"Сборщик ПК\">Сборщик ПК</a>\n" +
         "            </li>\n" +
-        "            <li class='menuSpace'>\n" +
+        "            <li class='menuSpace' >\n" +
         "            </li>" +
         "        </ul>"
     );

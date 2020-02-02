@@ -62,6 +62,12 @@
             <artifactId>jsoup</artifactId>
             <version>1.11.3</version>
         </dependency>
+        <!--Api2pdf-->
+        <dependency>
+            <groupId>com.api2pdf.client</groupId>
+            <artifactId>api2pdf</artifactId>
+            <version>1.0.4</version>
+        </dependency>
     </dependencies>
 
     <build>
