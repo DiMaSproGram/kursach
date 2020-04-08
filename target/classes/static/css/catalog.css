@@ -1,0 +1,60 @@
+.catalogBack {
+    padding: 0px 25px;
+}
+.catalog {
+    display: block;
+    margin-right: 10px;
+    padding: 10px 0px 10px;
+    border: 1px solid #000;
+    background-color: gray;
+}
+
+.catalogButton {
+    color: black;
+    font-size: 24px;
+    padding-left: 10px;
+
+}
+#exit{
+    margin: 0 0 0 16px;
+}
+#leftMenu{
+    display: inline-table;
+    width: 25%;
+    margin: 0 0 0 16px;
+}
+#content{
+    display: inline-flex;
+    height: auto;
+    width: 70%;
+    flex-wrap: wrap;
+    padding: 0 4px;
+}
+
+#box{
+    border: 1px solid #000;
+    flex: 20%;
+    max-width: 25%;
+    padding: 0 4px;
+    margin: 0 10px 10px 0;
+    background: linear-gradient(#ffffff, #d1d1d1);
+}
+
+@media (max-width: 1400px) {
+    #box {
+        flex: 30%;
+        max-width: 35%;
+    }
+}
+@media (max-width: 1100px) {
+    #box {
+        flex: 50%;
+        max-width: 47%;
+    }
+}
+@media (max-width: 986px) {
+    #box {
+        flex: 100%;
+        max-width: 100%;
+    }
+}

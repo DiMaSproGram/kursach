@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>PC-creator</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/catalog.css">
+
+    <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+</head>
+<body>
+    <div id="menuBar"></div>
+    <div id="contentContainer">
+        <div id="leftMenu"></div>
+        <div id="content">
+            <div id="box" th:each="hardware : ${hardwares}">
+                <img th:src="${hardware.image}">
+                <h5 th:text="${hardware.name}"></h5>
+                <p th:text="${hardware.price} + 'руб'"></p>
+            </div>
+        </div>
+    </div>
+    <script src="/js/menubar.js"></script>
+    <script src="/js/account.js" th:if="${active}"></script>
+    <script src="/js/loginbtn.js" th:if="${not active}"></script>
+    <script src="/js/catalog.js"></script>
+</body>
+</html>
