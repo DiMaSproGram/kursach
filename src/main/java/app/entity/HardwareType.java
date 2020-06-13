@@ -21,4 +21,5 @@ public class HardwareType {
     public HardwareType(String name) {
         this.name = name;
     }
+
 }

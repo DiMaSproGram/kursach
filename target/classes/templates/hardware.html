@@ -5,21 +5,103 @@
     <title>PC-creator</title>
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/catalog.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
 
-    <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
 </head>
-<body>
-    <div id="menuBar"></div>
-    <div id="contentContainer">
-        <div id="leftMenu"></div>
-        <div id="content">
-            <div id="box" th:each="hardware : ${hardwares}">
-                <img th:src="${hardware.image}">
-                <h5 th:text="${hardware.name}"></h5>
-                <p th:text="${hardware.price} + 'руб'"></p>
+<body style="background-color: #202020">
+<!--class="animate__animated animate__fadeIn"-->
+    <a id="button"></a>
+    <div id="menuBar" class="fixed-top"></div>
+    <div id="contentContainer" >
+        <div id="leftMenu" class="animate__animated animate__fadeIn"></div>
+
+        <div id="content" class="animate__animated animate__zoomIn">
+            <div class="alert alert-warning" role="alert" th:if="${hardwares.isEmpty()}">
+                <p th:text="${error}"></p>
+            </div>
+            <div id="box" class="card" th:each="hardwareEntity : ${hardwares}">
+                <img class="card-img-top" th:src="${hardwareEntity.image}">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${hardwareEntity.name}"></h5>
+                    <p class="card-subtitle mb-2 text-muted" th:text="${hardwareEntity.price} + 'руб'"></p>
+<!--                    <p class="card-text" th:text="${hardwareEntity.description}"></p>-->
+                    <p class="card-text" th:each="description : ${hardwareEntity.description.split(', ')}" th:text="${description}"></p>
+                    <a class="card-link" th:href="${hardwareEntity.link}">узнать больше...</a>
+                </div>
             </div>
         </div>
+
+        <div id="search_filters" class="animate__animated animate__fadeIn">
+            <form th:action="@{/catalog/{type}/{currentPage}/search(type=${type}, currentPage=${currentPage})}" method="post">
+                <input id="search" class="form-control" type="text" placeholder="Search.." name="search" style="display: inline">
+                <button id="search_button" type="submit"><i class="fa fa-search"></i></button>
+            </form>
+            <br>
+            <form id="filters" th:action="@{/catalog/{type}/{currentPage}/filter(type=${type}, currentPage=${currentPage})}" method="post" style="padding: 10px;  border-radius: 10px;">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span id="minPrice" class="input-group-text">Минимальная цена</span>
+                    </div>
+                    <input id="min_price" class="form-control" aria-describedby="minPrice" type="number" th:value="${minPrice}" placeholder="" name="minPriceS">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span id="maxPrice" class="input-group-text">Максимальная цена</span>
+                    </div>
+                    <input id="max_price" class="form-control" aria-describedby="maxPrice" type="number" th:value="${maxPrice}" placeholder="" name="maxPriceS">
+                </div>
+
+                <div th:if="${filters.isEmpty()}" style="display: none">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect02">Gu</label>
+                    </div>
+                    <select class="custom-select" id="inputGroupSelect02" name="features" form="filters">
+                        <option selected></option>
+                    </select>
+                </div>
+                <div class="input-group mb-3" th:if="not ${filters.isEmpty()}" th:each="filter:${filters}">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect01" th:text="${filter.getKey()}"></label>
+                    </div>
+                    <select class="custom-select" id="inputGroupSelect01" name="features" form="filters">
+                        <option selected></option>
+                        <option th:each="feature:${filter.getValue().getFeatureValues()}" th:label="${feature}" th:value="${filter.getValue().getFeatureName()} + '#' + ${feature}">
+                    </select>
+                </div>
+                <div class = "center" >
+                    <button class="btn btn-secondary" type="submit">Найти</button>
+                </div>
+            </form>
+        </div>
     </div>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center pagination-lg" style="margin-top: 20px; margin-bottom: 40px;">
+            <li th:class="${currentPage == 1} ? 'page-item disabled' : 'page-item'">
+                <a class="page-link text-light bg-secondary" th:href="${pages.get(previousPage - 1)}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item" th:each="page : ${pages}">
+                <a class="page-link text-light"
+                   th:style="${page.equals(pages.get(currentPage - 1))} ? 'background-color: #474747;' : 'background-color: #6c757d'"
+                   th:href="${page}"
+                   th:text="${page.split('/')[3]}"
+                ></a>
+            </li>
+            <li th:class="${currentPage == pages.size()} ? 'page-item disabled' : 'page-item'">
+                <a class="page-link text-light bg-secondary" th:href="${pages.get(nextPage - 1)}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <footer id="footer" th:class="${error == null} ? 'page-footer font-small blue pt-4' : 'fixed-bottom page-footer font-small blue pt-4'" style="background-color: black"></footer>
     <script src="/js/menubar.js"></script>
     <script src="/js/account.js" th:if="${active}"></script>
     <script src="/js/loginbtn.js" th:if="${not active}"></script>

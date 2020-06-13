@@ -5,42 +5,59 @@
     <title>PC-creator</title>
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/catalog.css">
-    <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
-</head>
-<body>
-    <div id="menuBar"></div>
-    <div id="pcCreator">
-        <div id="leftMenu">
-            <form th:action="@{/creator/pc}" method="post">
-                <div><label> Стоимость: <input type="number" name="price" required minlength="3"/> </label><label th:text="${error}"></label></div>
-                <div><label> Цель:
-                    <select name="goal">
-                        <option value="1">Для гейминга</option>
-                        <option value="2">Для работы</option>
-                    </select>
-                </label></div>
-                <div><input type="submit" value="Подобрать"/></div>
-            </form>
-            <div>
-                <label th:text="'Конечная цена:' + ${totalPrice} + 'руб'"></label>
-            </div>
-            <div>
-                <form th:if="${active}" th:action="@{/creator/save}" method="post">
-                    <input type="submit" value="Сохранить"/>
-                </form>
-            </div>
-        </div>
-        <div id="content">
-            <div id="box" th:each="hardware : ${hardwares}">
-                <img th:src="${hardware.image}">
-                <h5 th:text="${hardware.name}"></h5>
-                <p th:text="${hardware.price} + 'руб'"></p>
-            </div>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+</head>
+<body style="background-color: #202020">
+<div id="menuBar" class="fixed-top"></div>
+
+<div id="contentContainer" >
+    <div id="leftMenuCreator" style="padding: 10px; border-radius: 10px; background-color: #474747; margin-right: 3%">
+        <form th:action="@{/creator/pc}" th:object="${range}" method="post">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span id="price" class="input-group-text"> Стоимость:</span>
+                </div>
+                <input  class="form-control" aria-describedby="price" type="number" name="price" th:value="${price}" required minlength="3"/>
+                <div class="alert alert-warning" role="alert" th:if="${isError}">
+                    <p th:text="${error}"></p>
+                </div>
+            </div>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <label class="input-group-text" for="inputGroupSelect01"> Цель: </label>
+                </div>
+                <select class="custom-select" id="inputGroupSelect01" name="goal">
+                    <option value="1">Для гейминга</option>
+                    <option value="2" th:if="${goal.equals('2')}" selected>Для работы</option>
+                    <option value="2" th:if="${not goal.equals('2')}">Для работы</option>
+                </select>
+            </div>
+            <label class="text-light">Добавлять SSD</label><br>
+            <input id="ssd_true" type="radio" name="isSSD" value="true" checked>
+            <label for="ssd_true" class="text-light">Да</label><br>
+            <input id="ssd_false" type="radio" name="isSSD" value="false">
+            <label for="ssd_false" class="text-light">Нет</label><br>
+            <div class="center">
+                <input class="btn btn-secondary" type="submit" value="Подобрать">
+            </div>
+        </form>
+        <br>
+        <hr>
+        <div>
+            <label class="text-light" th:text="'Конечная цена: ' + ${totalPrice} + ' руб'"></label>
         </div>
     </div>
-    <script src="/js/menubar.js"></script>
-    <script src="/js/account.js" th:if="${active}"></script>
-    <script src="/js/loginbtn.js" th:if="${not active}"></script>
+
+</div>
+<footer id="footer" class="fixed-bottom page-footer font-small blue pt-4" style="background-color: black"></footer>
+<script src="/js/menubar.js"></script>
+<script src="/js/account.js" th:if="${active}"></script>
+<script src="/js/loginbtn.js" th:if="${not active}"></script>
 </body>
 </html>

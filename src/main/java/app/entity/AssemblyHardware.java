@@ -11,18 +11,19 @@ public class AssemblyHardware {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE})
     @JoinColumn(name = "assembly_id")
     private Assembly assembly;
 
-    @ManyToOne
+//    @ManyToOne(cascade = {CascadeType.MERGE)
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE})
     @JoinColumn(name = "hardware_id")
-    private Hardware hardware;
+    private HardwareEntity hardwareEntity;
 
     public AssemblyHardware() {
     }
-    public AssemblyHardware(Assembly assembly, Hardware hardware) {
+    public AssemblyHardware(Assembly assembly, HardwareEntity hardwareEntity) {
         this.assembly = assembly;
-        this.hardware = hardware;
+        this.hardwareEntity = hardwareEntity;
     }
 }

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>PC-creator</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/catalog.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"/>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+
+</head>
+<body style="background-color: #202020">
+    <div id="menuBar" class="fixed-top"></div>
+
+    <div id="contentContainer" style="padding-bottom: 260px;">
+        <div id="leftMenuCreator" >
+            <form th:action="@{/creator/pc}" th:object="${range}" method="post">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span id="price" class="input-group-text"> Стоимость:</span>
+                    </div>
+                    <input  class="form-control" aria-describedby="price" type="number" name="price" th:value="${price}" required minlength="3"/>
+                    <div class="alert alert-warning" role="alert" th:if="${isError}">
+                        <p th:text="${error}"></p>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="inputGroupSelect01"> Цель: </label>
+                    </div>
+                    <select class="custom-select" id="inputGroupSelect01" name="goal">
+                        <option value="1">Для гейминга</option>
+                        <option value="2" th:if="${goal.equals('2')}" selected>Для работы</option>
+                        <option value="2" th:if="${not goal.equals('2')}">Для работы</option>
+                    </select>
+                </div>
+                <label class="text-light">Добавлять SSD</label><br>
+                <input id="ssd_true" type="radio" name="isSSD" value="true" checked>
+                <label for="ssd_true" class="text-light">Да</label><br>
+                <input id="ssd_false" type="radio" name="isSSD" value="false">
+                <label for="ssd_false" class="text-light">Нет</label><br>
+                <div class="center">
+                    <input class="btn btn-secondary" type="submit" value="Подобрать">
+                </div>
+                <br>
+            </form>
+            <form th:action="@{/creator/rebuild}" th:if="${not hardwares.isEmpty()}" method="post">
+                <p id="ebat" th:value="${json}" style="display: none"></p>
+                <div>
+                    <label class="text-light" for="myRange">Количество ядер</label>
+                    <div class="range">
+                            <span class="rangeVal">
+                                <span id="myValue" class="text-light"></span>
+                            </span>
+                        <input id="myRange" class="custom-range" type="range" name="core_amount" min="0"
+                               th:max="${arr.get(0).getFeatureValues().size() - 1}" th:value="${arr2.get(0)}"/>
+                    </div>
+                    <br>
+                    <label class="text-light">Базовая тактовая частота</label>
+                    <div class="range">
+                            <span class="rangeVal">
+                            <span id="myValue2" class="text-light"></span>
+                            </span>
+                        <input id="myRange2" class="custom-range" type="range" name="clock_rate" min="0"
+                               th:max="${arr.get(1).getFeatureValues().size() - 1}" th:value="${arr2.get(1)}"/>
+                    </div>
+                    <br>
+                    <label class="text-light">Видеопамять</label>
+                    <div class="range">
+                            <span class="rangeVal">
+                            <span id="myValue3" class="text-light"></span>
+                            </span>
+                        <input id="myRange3" class="custom-range" type="range" name="video_memory" min="0"
+                               th:max="${arr.get(2).getFeatureValues().size() - 1}" th:value="${arr2.get(2)}"/>
+                    </div>
+                    <br>
+                    <label class="text-light">Объём ОЗУ</label>
+                    <div class="range">
+                            <span class="rangeVal">
+                            <span id="myValue4" class="text-light"></span>
+                            </span>
+                        <input id="myRange4" class="custom-range" type="range" name="volume_ram" min="0"
+                               th:max="${arr.get(3).getFeatureValues().size() - 1}" th:value="${arr2.get(3)}"/>
+                    </div>
+                    <br>
+                    <label class="text-light">Объём жёсткого диска</label>
+                    <div class="range">
+                            <span class="rangeVal">
+                            <span id="myValue5" class="text-light"></span>
+                            </span>
+                        <input id="myRange5" class="custom-range" type="range" name="volume_hdd" min="0"
+                               th:max="${arr.get(4).getFeatureValues().size() - 1}" th:value="${arr2.get(4)}"/>
+                    </div>
+                    <br>
+                    <label class="text-light" th:if="${isSSD}">Объём SSD</label>
+                    <div class="range"  th:if="${isSSD}">
+                            <span class="rangeVal">
+                                <span id="myValue6" class="text-light"></span>
+                            </span>
+                        <input id="myRange6"class="custom-range"  type="range" name="volume_ssd" min="0"
+                               th:max="${arr.get(5).getFeatureValues().size() - 1}" th:value="${arr2.get(5)}"/>
+                    </div>
+                    <br>
+                </div>
+                <div class="center">
+                    <input class="btn btn-secondary" type="submit" value="Пересобрать"/>
+                </div>
+            </form>
+            <br>
+            <hr>
+            <div>
+                <label class="text-light" th:text="'Конечная цена: ' + ${totalPrice} + ' руб'"></label>
+            </div>
+            <div class="center">
+                <form th:action="@{/creator/save}" th:if="${active and not hardwares.isEmpty()}" method="post">
+                    <input class="btn btn-secondary" type="submit" value="Сохранить"/>
+                </form>
+            </div>
+        </div>
+
+        <div id="contentCreator" class="animate__animated animate__fadeIn">
+            <div id="boxCreator" class="card" th:each="hardwareEntity : ${hardwares}">
+                <img class="card-img-top" th:src="${hardwareEntity.image}">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${hardwareEntity.name}"></h5>
+                    <p class="card-subtitle mb-2 text-muted" th:text="${hardwareEntity.price} + 'руб'"></p>
+<!--                    <p class="card-text" th:text="${hardwareEntity.description}"></p>-->
+        <!--            <p class="card-text" th:each="description : ${hardwareEntity.description.split(', ')}" th:text="${description}"></p>-->
+                    <a class="card-link" th:href="${hardwareEntity.link}">узнать больше...</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer id="footer" class=" page-footer font-small blue pt-4" style="background-color: black; margin-top: 80px;"></footer>
+    <script src="/js/menubar.js"></script>
+    <script src="/js/account.js" th:if="${active}"></script>
+    <script src="/js/loginbtn.js" th:if="${not active}"></script>
+
+<script type="text/javascript" charset="utf-8">
+
+  var json = JSON.parse(document.querySelector('#ebat').getAttribute("value"));
+  var massiv = json[0].featureValues;
+  var massiv2 = json[1].featureValues;
+  var massiv3 = json[2].featureValues;
+  var massiv4 = json[3].featureValues;
+  var massiv5 = json[4].featureValues;
+  var massiv6 = json[5].featureValues;
+  console.log(json);
+  console.log(massiv);
+  var myRange = document.querySelector('#myRange');
+  var myValue = document.querySelector('#myValue');
+  var off = myRange.offsetWidth / (parseInt(myRange.max) - parseInt(myRange.min));
+  var px = ((myRange.valueAsNumber - parseInt(myRange.min)) * off) - (myValue.offsetParent.offsetWidth / 2);
+
+  myValue.parentElement.style.left = px + 'px';
+  myValue.parentElement.style.top = myRange.offsetHeight + 'px';
+  myValue.innerHTML = massiv[myRange.value];
+
+  myRange.oninput = function () {
+    let px = ((myRange.valueAsNumber - parseInt(myRange.min)) * off) - (myValue.offsetWidth / 2);
+    myValue.innerHTML = massiv[myRange.value];
+    myValue.parentElement.style.left = px + 'px';
+  };
+
+  var myRange2 = document.querySelector('#myRange2');
+  var myValue2 = document.querySelector('#myValue2');
+  var off2 = myRange2.offsetWidth / (parseInt(myRange2.max) - parseInt(myRange2.min));
+  var px2 = ((myRange2.valueAsNumber - parseInt(myRange2.min)) * off2) - (myValue2.offsetParent.offsetWidth / 2);
+
+  myValue2.parentElement.style.left = px2 + 'px';
+  myValue2.parentElement.style.top = myRange2.offsetHeight + 'px';
+  myValue2.innerHTML = massiv2[myRange2.value];
+
+  myRange2.oninput = function () {
+    let px = ((myRange2.valueAsNumber - parseInt(myRange2.min)) * off2) - (myValue2.offsetWidth / 2);
+    myValue2.innerHTML = massiv2[myRange2.value];
+    myValue2.parentElement.style.left = px + 'px';
+  };
+
+  var myRange3 = document.querySelector('#myRange3');
+  var myValue3 = document.querySelector('#myValue3');
+  var off3 = myRange3.offsetWidth / (parseInt(myRange3.max) - parseInt(myRange3.min));
+  var px3 = ((myRange3.valueAsNumber - parseInt(myRange3.min)) * off3) - (myValue3.offsetParent.offsetWidth / 2);
+
+  myValue3.parentElement.style.left = px3 + 'px';
+  myValue3.parentElement.style.top = myRange3.offsetHeight + 'px';
+  myValue3.innerHTML = massiv3[myRange3.value];
+
+  myRange3.oninput = function () {
+    let px = ((myRange3.valueAsNumber - parseInt(myRange3.min)) * off3) - (myValue3.offsetWidth / 2);
+    myValue3.innerHTML = massiv3[myRange3.value];
+    myValue3.parentElement.style.left = px + 'px';
+  };
+
+  var myRange4 = document.querySelector('#myRange4');
+  var myValue4 = document.querySelector('#myValue4');
+  var off4 = myRange4.offsetWidth / (parseInt(myRange4.max) - parseInt(myRange4.min));
+  var px4 = ((myRange4.valueAsNumber - parseInt(myRange4.min)) * off4) - (myValue4.offsetParent.offsetWidth / 2);
+
+  myValue4.parentElement.style.left = px4 + 'px';
+  myValue4.parentElement.style.top = myRange4.offsetHeight + 'px';
+  myValue4.innerHTML = massiv4[myRange4.value];
+
+  myRange4.oninput = function () {
+    let px = ((myRange4.valueAsNumber - parseInt(myRange4.min)) * off4) - (myValue4.offsetWidth / 2);
+    myValue4.innerHTML = massiv4[myRange4.value];
+    myValue4.parentElement.style.left = px + 'px';
+  };
+
+  var myRange5 = document.querySelector('#myRange5');
+  var myValue5 = document.querySelector('#myValue5');
+  var off5 = myRange5.offsetWidth / (parseInt(myRange5.max) - parseInt(myRange5.min));
+  var px5 = ((myRange5.valueAsNumber - parseInt(myRange5.min)) * off5) - (myValue5.offsetParent.offsetWidth / 2);
+
+  myValue5.parentElement.style.left = px5 + 'px';
+  myValue5.parentElement.style.top = myRange5.offsetHeight + 'px';
+  myValue5.innerHTML = massiv5[myRange5.value];
+
+  myRange5.oninput = function () {
+    let px = ((myRange5.valueAsNumber - parseInt(myRange5.min)) * off5) - (myValue5.offsetWidth / 2);
+    myValue5.innerHTML = massiv5[myRange5.value];
+    myValue5.parentElement.style.left = px + 'px';
+  };
+
+  if (document.querySelector('#myRange6')) {
+    var myRange6 = document.querySelector('#myRange6');
+    var myValue6 = document.querySelector('#myValue6');
+    var off6 = myRange6.offsetWidth / (parseInt(myRange6.max) - parseInt(myRange6.min));
+    var px6 = ((myRange6.valueAsNumber - parseInt(myRange6.min)) * off6) - (myValue6.offsetParent.offsetWidth / 2);
+
+    myValue6.parentElement.style.left = px6 + 'px';
+    myValue6.parentElement.style.top = myRange6.offsetHeight + 'px';
+    myValue6.innerHTML = massiv6[myRange6.value];
+
+    myRange6.oninput = function () {
+      let px = ((myRange6.valueAsNumber - parseInt(myRange6.min)) * off6) - (myValue6.offsetWidth / 2);
+      myValue6.innerHTML = massiv6[myRange6.value];
+      myValue6.parentElement.style.left = px + 'px';
+    };
+  }
+
+</script>
+</body>
+</html>

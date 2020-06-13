@@ -1,14 +1,14 @@
 package app.controller;
 
-import app.UserInSystem;
-import app.entity.Assembly;
-import app.entity.Hardware;
+import app.entity.HardwareEntity;
+import app.entity.User;
 import app.service.AssemblyService;
 import app.service.HardwareService;
-import app.service.UserService;
+import app.service.impl.UserServiceImpl;
 import com.api2pdf.client.Api2PdfClient;
 import com.api2pdf.models.Api2PdfResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,31 +20,33 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 
 @Controller
 @RequestMapping("/account")
+@RequiredArgsConstructor
 public class AccountController {
-    @Autowired
-    AssemblyService assemblyService;
-    @Autowired
-    HardwareService hardwareService;
-    @Autowired
-    UserInSystem userInSystem;
-    @Autowired
-    UserService userService;
 
-    private Api2PdfClient api2PdfClient = new Api2PdfClient("e3fefcd4-f652-4709-ba2e-ede5e09560e1");
+    public final AssemblyService assemblyService;
+    public final HardwareService hardwareService;
+    public final UserServiceImpl userService;
 
+    private Api2PdfClient api2PdfClient = new Api2PdfClient(
+        "e3fefcd4-f652-4709-ba2e-ede5e09560e1"
+    );
 
     @GetMapping
-    public String creator(Model model) {
-        ArrayList<ArrayList<Hardware>> assemblyList = assemblyService.getByUser(userService.findUserByUsername(userInSystem.getUserName()).getId());
-        model.addAttribute("user", userInSystem.getUserName());
-        model.addAttribute("active", userInSystem.isActive());
-        model.addAttribute("assembles", assemblyList);
+    public String account(@AuthenticationPrincipal User user, Model model) {
+        HashMap<String, ArrayList<HardwareEntity>> assemblyMap = assemblyService.getByUser(
+            userService.loadUserByUsername(user.getUsername()).getId()
+        );
+
+        model.addAttribute("user", user.getUsername());
+        model.addAttribute("active", user != null);
+        model.addAttribute("assembles", assemblyMap);
         return "account";
     }
+
     @PostMapping("/pdf")
     public String convertToPdf(Model model) throws IOException {
         URL bhv = new URL("http://localhost:8080/account");
@@ -58,12 +60,5 @@ public class AccountController {
         Api2PdfResponse api2PdfResponse = api2PdfClient.wkhtmlToPdfFromHtml(stringBuilder.toString(), true, "accountInfo");
         model.addAttribute("pdfLink", api2PdfResponse.getPdf());
         return "pdfLink";
-    }
-    @PostMapping("/exit")
-    public String exit(Model model){
-        userInSystem.setActive(false);
-        userInSystem.setUserName("");
-
-        return "redirect:/";
     }
 }

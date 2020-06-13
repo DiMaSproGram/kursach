@@ -1,120 +1,283 @@
 package app.service.impl;
 
-import app.entity.Hardware;
-import app.service.*;
+import app.common.StringUtils;
+import app.payload.Hardware;
+import app.entity.HardwareEntity;
+import app.entity.HardwareFeature;
+import app.payload.HardwarePayload;
+import app.payload.Page;
+import app.payload.Products;
+import app.service.HardwareService;
+import app.service.HardwareTypeService;
+import app.service.ParserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.List;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 @Service
+@RequiredArgsConstructor
 public class ParserServiceImpl implements ParserService {
-    public enum ParserURL {
-        PROCESSOR_URL ("https://kst.by/kompyutery-i-komplektuyushchie/processory/price/194-4035/sklad/7?sort=p.price&order=ASC&limit=100", "processor"),
-        VIDEO_CARD_URL ("https://kst.by/kompyutery-i-komplektuyushchie/videokarty/price/100-6000/sklad/7?sort=p.price&order=ASC&limit=100", "video_card"),
-        MOTHERBOARD_URL ("https://kst.by/kompyutery-i-komplektuyushchie/materinskie-platy/price/55-650/sklad/7?sort=p.price&order=ASC&limit=100", "motherboard"),
-        RAM_URL ("https://kst.by/kompyutery-i-komplektuyushchie/operativnaya-pamyat/price/40-800/sklad/7?sort=p.price&order=ASC&limit=100", "ram"),
-        HDD_URL ("https://kst.by/kompyutery-i-komplektuyushchie/jestkie-diski/price/31-674/sklad/7?sort=p.price&order=ASC&limit=100", "hdd"),
-        SSD_URL ("https://kst.by/kompyutery-i-komplektuyushchie/ssd/price/21-420/sklad/7?sort=p.price&order=ASC&limit=100", "ssd"),
-        POWER_SUPPLY_URL ("https://kst.by/kompyutery-i-komplektuyushchie/bloki-pitaniya/price/21-160/sklad/7?sort=p.price&order=ASC&limit=100", "power_supply"),
-        COOLERS_URL ("https://kst.by/kompyutery-i-komplektuyushchie/sistemy-ohlajdeniya/price/10-315/sklad/7/termokontrol/net?sort=p.price&order=ASC&limit=100", "coolers"),
-        COMPUTER_CASE_URL ("https://kst.by/kompyutery-i-komplektuyushchie/korpusa/sklad/7?sort=p.price&order=ASC&limit=100", "computer_case");
 
-        private String url;
-        private String name;
+    private final HardwareServiceImpl hardwareService;
+    private final HardwareTypeService hardwareTypeService;
+    private final HardwareFeatureService hardwareFeatureService;
 
-        ParserURL(String url, String name){
-            this.name = name;
-            this.url = url;
-        }
-        public String getUrl() {
-            return url;
-        }
-        public String getName() {
-            return name;
-        }
-    }
-    @Autowired
-    private HardwareService hardwareService;
-    @Autowired
-    private HardwareTypeService hardwareTypeService;
+    boolean isDefect = false;
 
 //    @Scheduled(fixedRate = 604800000)
     @Override
     public void start() {
         try {
+            System.out.println(LocalTime.now());
+
+            hardwareFeatureService.deleteAll(hardwareService);
             hardwareService.deleteAll();
-            if(!hardwareTypeService.isExist(1))
-                for (ParserURL parserURL : ParserURL.values())
-                    hardwareTypeService.addHardwareType(parserURL.getName());
-            for (ParserURL parserURL : ParserURL.values())
-                parsing(parserURL);
+
+//            parsing(Hardware.HDD);
+            for (Hardware hardware : Hardware.values()) {
+                parsing(hardware);
+                System.out.println(hardware.getName() + " are parsed");
+            }
+
+            System.out.println(LocalTime.now());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void parsing(ParserURL parserURL) throws IOException {
-        Document doc;
-        Elements ul;
-        Elements li;
-        String url = parserURL.getUrl();
+    private void parsing(Hardware hardware) throws IOException {
+        int page = 1;
+        String json = doRequest(hardware.getParseUrl() + page, "GET");
+        Page lastPage = new ObjectMapper()
+            .readerFor(Page.class)
+            .readValue(json);
 
-        while (true) {
-            if (parsPage(url, parserURL) == 1)
-                break;
-            doc = Jsoup.connect(url).get();
-            ul = doc.select("ul.pagination");
-            if (ul.toString().equals(""))
-                break;
-            li = ul.select("li");
-            if(li.last().attr("class").equals("active"))
-                break;
-            url = li.get(li.size() - 2).select("a").attr("href");
-            System.out.println(url);
+        while (page <= Integer.parseInt(lastPage.getLastPage())) {
+            parsingPage(hardware, hardware.getParseUrl() + page);
+            page++;
         }
     }
 
-    private int parsPage(String url, ParserURL parserURL) throws IOException {
-        Document doc = Jsoup.connect(url).get();
-        List<Element> productList = doc.select("div.product-thumb");
-        Element p;
-        Element image;
-        String title;
-        String imageLink;
-        double price;
+    private void parsingPage(Hardware hardware, String pageUrl) throws IOException {
+        String json = doRequest(pageUrl, "GET");
 
-        for(int i = 0; i < productList.size(); ++i) {
-            if(i % 5 != 0)
-                continue;
-            title = productList.get(i).select("div.caption a").text();
-            title = trimRus(title);
+        Products products = new ObjectMapper()
+            .readerFor(Products.class)
+            .readValue(json);
 
-            image = productList.get(i).select("div.image a img").first();
-            imageLink = image.attr("src");
+        for (HardwarePayload hardwarePayload : products.getProducts()) {
+            ArrayList<HardwareFeature> featureList = new ArrayList<>();
+            HardwareEntity hardwareEntity = new  HardwareEntity(
+                hardwarePayload.getName(),
+                hardwarePayload.getDescription(),
+                hardwarePayload.getPrice(),
+                hardwarePayload.getImage(),
+                hardwarePayload.getLink(),
+                hardwareTypeService.findByName(hardware.getName())
+            );
 
-            p = productList.get(i).select("div.caption .price").first();
-            String priceTitle = p.attr("data-price");
-            if (p.text().equals("Товар отсутствует"))
-                return 1;
-            else
-                price = Double.parseDouble(priceTitle);
+            if (!hardware.getFeature().contains(Hardware.Feature.NONE)) {
+                for (Hardware.Feature feature : hardware.getFeature()) {
+                    featureList.add(parseHardwareFeature(feature, hardwarePayload.getLink(), hardwareEntity));
+                }
+            }
 
-            hardwareService.addHardware(new Hardware(title, price, imageLink, hardwareTypeService.findByName(parserURL.getName())));
-
-            System.out.println(title + " " + price + " " + imageLink);
+            if (!isDefect){
+                hardwareService.addHardware(hardwareEntity);
+                for (HardwareFeature feature : featureList) {
+                    feature.setHardwareEntity(hardwareService.findByName(hardwareEntity.getName()));
+                    hardwareFeatureService.addHardwareFeature(feature);
+                }
+            }
+            isDefect = false;
         }
-        return 0;
     }
 
-    private String trimRus(String s) {
-        s = s.replaceAll("[а-яА-Я]","").trim();
-        return s;
+    private HardwareFeature parseHardwareFeature(Hardware.Feature feature, String hardwareUrl, HardwareEntity hardwareEntity) throws IOException {
+        if (feature == Hardware.Feature.BOX) {
+            return new HardwareFeature(
+                feature.getName(),
+                hardwareEntity.getName().endsWith("(BOX)")
+                ? "true"
+                : "false",
+                hardwareService.findByName(hardwareEntity.getName())
+            );
+        }
+        Document doc = Jsoup.parse(doRequest(hardwareUrl, "GET"));
+        Element table = doc.select("table.product-specs__table").first();
+        Elements tbody = table.select("tbody tr");
+        String value = "";
+
+        for (Element element : tbody) {
+            if (hardwareEntity.getType().getName().equals("ram")) {
+                if (
+                    Arrays.asList(element.select("td").text().split(" "))
+                        .contains(feature.getParsingName())
+                ) {
+                    value = element.select("td").last().text();
+                }
+            }
+
+            if (
+                element.select("td").first()
+                    .select("p.product-tip__term").text()
+                    .equals(feature.getParsingName())
+            ) {
+                value = element.select("td").last().text();
+            }
+        }
+        if (value.equals("")) {
+            isDefect = true;
+        }
+        return new HardwareFeature(feature.getName(), StringUtils.trimParenthesesContent(value), hardwareService.findByName(hardwareEntity.getName()));
+//        return new HardwareFeature(feature.getName(), value, hardwareService.findByName(hardwareEntity.getName()));
     }
+
+    private String doRequest(String requestUrl, String requestType) throws IOException {
+        URL url = new URL(requestUrl);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod(requestType);
+        con.setDoOutput(true);
+
+        int status = con.getResponseCode();
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        String inputLine;
+        StringBuilder content = new StringBuilder();
+        while ((inputLine = in.readLine()) != null) {
+            content.append(inputLine);
+        }
+        in.close();
+
+        return content.toString();
+    }
+
+//    private void parsing(Hardware hardware) throws IOException {
+//        Document doc;
+//        Elements ul;
+//        Elements li;
+//        String parserUrl = hardware.getParseUrl();
+//
+//        while (true) {
+//            if (parsePage(hardware, parserUrl) == 1) {
+//                break;
+//            }
+//            doc = Jsoup.connect(parserUrl).get();
+//            ul = doc.select("ul.pagination");
+//            if (ul.toString().equals("")) {
+//                break;
+//            }
+//            li = ul.select("li");
+//            if(li.last().attr("class").equals("active")) {
+//                break;
+//            }
+//            parserUrl = li.get(li.size() - 2).select("a").attr("href");
+//            System.out.println(parserUrl);
+//        }
+//    }
+//
+//    private int parsePage(Hardware hardware, String url) throws IOException {
+//        Document doc = Jsoup.connect(url).get();
+//        List<Element> productList = doc.select("div.product-thumb");
+//        Element p;
+//        String title;
+//        String imageLink;
+//        String hardwareLink;
+//        double price;
+//
+//        for(int i = 0; i < productList.size(); ++i) {
+//            if (i % 5 != 0) {
+//                continue;
+//            }
+//
+//            p = productList.get(i).select("div.caption .price").first();
+//            String priceTitle = p.attr("data-price");
+//            if (p.text().equals("Товар отсутствует")) {
+//                return 1;
+//            }
+//            price = Double.parseDouble(priceTitle);
+//
+//            title = productList.get(i).select("div.caption a").text();
+//            title = trimRus(title);
+//
+//            imageLink = productList.get(i).select("div.image a img").first().attr("src");
+//
+//            hardwareLink = productList.get(i).select("div.caption a").attr("href");
+//
+//            if (hardware.getFeature() != Hardware.Feature.NONE) {
+//                hardwareService.addHardware(
+//                    new HardwareEntity(
+//                        title,
+//                        price,
+//                        imageLink,
+//                        hardwareLink,
+//                        hardwareTypeService.findByName(hardware.getName()),
+//                        parseHardware(hardware, hardwareLink)
+//                    )
+//                );
+//            }
+//            else {
+//                hardwareService.addHardware(
+//                    new HardwareEntity(
+//                        title,
+//                        price,
+//                        imageLink,
+//                        hardwareLink,
+//                        hardwareTypeService.findByName(hardware.getName())
+//                    )
+//                );
+//            }
+//
+//            System.out.println(title + " " + price + " " + imageLink);
+//        }
+//        return 0;
+//    }
+//
+//    private HardwareFeature parseHardware(Hardware hardware, String url) throws IOException {
+//        Document doc = Jsoup.connect(url).get();
+//        String productDataRowName = "div.product-data.row";
+//        int productDataRowNum = 1;
+//        String colValueName = "div.col-xs-7.col-sm-8";
+//        String colValue = "div.col-xs-5.col-sm-4";
+//
+//        if (hardware.getFeature() == Hardware.Feature.RECOMMEND_WATT) {
+//            String phantomJsPath = PhantomJsDowloader.getPhantomJsPath();
+//            productDataRowNum = 3;
+//            colValueName = "div.after.col-xs-7.col-md-6";
+//            colValue = "div.col-xs-5.col-md-6";
+//        }
+//
+//        Element productThumb = doc.select(productDataRowName).get(productDataRowNum);
+//        List<Element> characteristicList = productThumb.select(colValueName);
+//        int characterNumber = 0;
+//
+//        for (Element element : characteristicList) {
+//            if (
+//                element.select("span").text()
+//                    .equals(hardware.getFeature().getName())
+//            ) {
+//                break;
+//            }
+//            characterNumber++;
+//        }
+//
+//        String value = productThumb.select(colValue).get(characterNumber).text();
+//
+//        return new HardwareFeature(hardware.getName(), value);
+//    }
+//
+
 }

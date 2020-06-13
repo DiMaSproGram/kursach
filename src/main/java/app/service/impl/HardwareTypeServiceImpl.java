@@ -1,20 +1,29 @@
 package app.service.impl;
 
-import app.entity.Hardware;
+import app.payload.Hardware;
 import app.entity.HardwareType;
-import app.repository.HardwareRepo;
 import app.repository.HardwareTypeRepo;
-import app.service.HardwareService;
 import app.service.HardwareTypeService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 
 @Service
+@RequiredArgsConstructor
 public class HardwareTypeServiceImpl implements HardwareTypeService {
-    @Autowired
-    public HardwareTypeRepo hardwareTypeRepo;
+
+    public final HardwareTypeRepo hardwareTypeRepo;
+
+    @PostConstruct
+    public void createHardwareType() {
+        if(new ArrayList<>((ArrayList<HardwareType>)this.getAll()).size() == 0) {
+            for(Hardware hardware : Hardware.values()) {
+                hardwareTypeRepo.save(new HardwareType(hardware.getName()));
+            }
+        }
+    }
 
     @Override
     public Iterable<HardwareType> getAll() {

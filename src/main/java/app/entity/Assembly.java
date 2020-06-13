@@ -12,7 +12,7 @@ public class Assembly {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinColumn(name = "my_user_id")
     private User user;
 
@@ -20,7 +20,6 @@ public class Assembly {
 
     public Assembly(){}
     public Assembly(User user, double totalPrice) {
-//        this.assemblyHardware = assemblyHardware;
         this.user = user;
         this.totalPrice = totalPrice;
     }

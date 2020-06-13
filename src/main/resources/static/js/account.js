@@ -5,4 +5,10 @@ $(document).ready(function f() {
         "                <a class=\"menuButton\" href=\"/account\" title=\"Аккаунт\">Аккаунт</a>\n" +
         "              </li>\n"
     );
-})
+
+    document.getElementById('accountInfo').insertAdjacentHTML("beforeend",
+        "                  <li th:if=\"${active}\">\n" +
+        "                            <a href=\"/account\" class=\"text-light\">Аккаунт</a>\n" +
+        "                        </li>\n"
+    );
+});

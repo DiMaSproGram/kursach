@@ -2,34 +2,47 @@ package app.service.impl;
 
 import app.entity.Assembly;
 import app.entity.AssemblyHardware;
-import app.entity.Hardware;
+import app.entity.HardwareEntity;
 import app.repository.AssemblyHardwareRepo;
 import app.service.AssemblyHardwareService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 
 @Service
+@RequiredArgsConstructor
 public class AssemblyHardwareServiceImpl implements AssemblyHardwareService {
-    @Autowired
-    public AssemblyHardwareRepo assemblyHardwareRepo;
+
+    private final AssemblyHardwareRepo assemblyHardwareRepo;
 
     @Override
-    public void save(Assembly assembly, Hardware[] hardware) {
-        for (Hardware hardware1 : hardware)
-            assemblyHardwareRepo.save(new AssemblyHardware(assembly, hardware1));
+    public void save(Assembly assembly, HardwareEntity[] hardwareEntity) {
+        for (HardwareEntity hardware : hardwareEntity) {
+            assemblyHardwareRepo.save(new AssemblyHardware(assembly, hardware));
+        }
     }
 
     @Override
-    public Iterable<Hardware> getAssembly(int id) {
+    public Iterable<HardwareEntity> getAssembly(int id) {
         ArrayList<AssemblyHardware> arrayList = (ArrayList<AssemblyHardware>) assemblyHardwareRepo.findAll();
-        ArrayList<Hardware> hardwareList = new ArrayList<>();
+        ArrayList<HardwareEntity> hardwareEntityList = new ArrayList<>();
 
         for(AssemblyHardware assemblyHardware : arrayList)
             if(assemblyHardware.getAssembly().getId() == id)
-                hardwareList.add(assemblyHardware.getHardware());
+                hardwareEntityList.add(assemblyHardware.getHardwareEntity());
 
-        return hardwareList;
+        return hardwareEntityList;
     }
+
+    @Override
+    public ArrayList<HardwareEntity> getAllHardware() {
+        ArrayList<AssemblyHardware> list = (ArrayList<AssemblyHardware>) assemblyHardwareRepo.findAll();
+        ArrayList<HardwareEntity> result = new ArrayList<>();
+        list.forEach(el -> result.add(el.getHardwareEntity()));
+        return result;
+    }
+
+
 }

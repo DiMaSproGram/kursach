@@ -5,16 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Login</title>
+    <title>Вход</title>
+    <link rel="stylesheet" href="/css/main.css">
+<!--    <link rel="stylesheet" href="/css/catalog.css">-->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <link href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet" crossorigin="anonymous">
     <script src="chrome-extension://mooikfkahbdckldjjndioackbalphokd/assets/prompt.js"></script>
 </head>
-<body>
-    <div class="container">
+<body style="background-color: #202020; padding-top: 0px;">
+    <div id="menuBar" class="fixed-top"></div>
+    <div class="container" style="margin-top: 200px;">
         <form class="form-signin" th:action="@{/login}" method="post">
-            <h2 class="form-signin-heading">Вход в аккаунт</h2>
-            <p th:text="${message}"></p>
+            <h2 class="form-signin-heading  text-light">Вход в аккаунт</h2>
+            <div th:if="${message != null}" class="alert alert-warning" role="alert" th:text="${message}">
+            </div>
             <p>
                 <label for="username" class="sr-only">Username</label>
                 <input type="text" id="username" name="username" class="form-control" placeholder="Имя пользователя" required="" autofocus="">
@@ -24,12 +29,16 @@
                 <input type="password" id="password" name="password" class="form-control" placeholder="Пароль" required minlength="4">
             </p>
             <input name="_csrf" type="hidden" value="63cb8ad8-001e-4071-9ca6-7a0bc7999308">
-            <button class="btn btn-lg btn-primary btn-block" type="submit">Войти</button>
+            <button class="btn btn-lg btn-primary btn-block btn-secondary" type="submit">Войти</button>
 
         </form>
         <form class="form-signin" th:action="@{/registration}" method="get">
-            <button class="btn btn-lg btn-primary btn-block" type="submit" formaction="/registration" >Зарегистрироваться</button>
+            <button class="btn btn-lg btn-primary btn-block btn-secondary" type="submit" formaction="/registration" >Зарегистрироваться</button>
         </form>
     </div>
+    <footer id="footer" class="fixed-bottom page-footer font-small blue pt-4" style="background-color: black"></footer>
+    <script src="/js/menubar.js"></script>
+    <script src="/js/account.js" th:if="${active}"></script>
+    <script src="/js/loginbtn.js" th:if="${not active}"></script>
 </body>
 </html>

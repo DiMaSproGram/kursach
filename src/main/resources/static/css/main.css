@@ -1,27 +1,132 @@
 body{
-    background: linear-gradient(90deg, #d1d1d1, #000000);
+    background: #202020;
     user-select: none;
+    margin: 0px;
+}
+
+head {
+    background-color: black;
+}
+#contentContainer {
+    margin-top: 240px;
+}
+#logo {
+    padding-top: 30px;
+}
+
+#logoName {
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+    font: normal normal normal 30px/1.41em montserrat,sans-serif;
+}
+
+#menuBar {
+    background-color: black;
+    text-align: center;
 }
 
 .menu {
-    background-color: gray;
     display: inline;
-    border: 1px solid #000;
-    padding: 28px 100px 7px 0px;
-}
-.menuSpace{
-    background-color: gray;
-    display: inline;
-    border: 1px solid #000;
-    padding: 28px 590px 7px 0px;
+    padding-right: 30px;
 }
 
-.menuButton {
-    color: black;
-    font-size: 48px;
-    padding-left: 100px;
+#menuUl {
+    margin-top: 20px;
+    padding-left: 0px;
+    padding-bottom: 30px;
 }
-hr{
+/*.menuSpace{*/
+/*    display: inline;*/
+/*    padding: 28px 420px 7px 0px;*/
+/*}*/
+
+.menuButton {
+    color: white;
+    cursor: pointer;
+    text-decoration: none;
+    font: normal normal normal 24px/1.41em montserrat,sans-serif;
+    text-align: center;
+}
+
+#info {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 240px;
+    margin-bottom: 60px;
+}
+
+#infoImg {
+
+}
+#infoText {
+    text-align: center;
+    margin-top: 5%;
+}
+
+#info p {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-right: 100px;
+    color: white;
+    font: normal normal normal 72px/1.25em montserrat, sans-serif;
+    font-family: Arial;
+}
+hr {
     background:black;
     height:3px;
+}
+
+#exit {
+    background-color: #333333;
+    border-radius: 7px;
+    border-color: #dfdfdf;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    width: 100px;
+    height: 50px;
+    font-size: 20px;
+}
+#contentCreator{
+    display: inline-flex;
+    height: auto;
+    width: 76%;
+    flex-wrap: wrap;
+    padding: 0 4px;
+    margin-top: 16px;
+}
+
+#boxCreator{
+    border: 1px solid #000;
+    flex: 20%;
+    max-width: 19%;
+    padding: 0 4px;
+    margin: 0 10px 10px 0;
+    background: linear-gradient(#ffffff, #d1d1d1);
+}
+#boxCreator p {
+    margin-bottom: 5px;
+}
+#boxCreator img{
+    width: 170px;
+    height: 170px;
+}
+
+@media (max-width: 1500px) {
+    #boxCreator {
+        flex: 30%;
+        max-width: 35%;
+    }
+}
+@media (max-width: 1100px) {
+    #boxCreator {
+        flex: 50%;
+        max-width: 47%;
+    }
+}
+@media (max-width: 986px) {
+    #boxCreator {
+        flex: 100%;
+        max-width: 100%;
+    }
 }
