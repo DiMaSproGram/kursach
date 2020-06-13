@@ -1,67 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="145ef465-5948-47f3-8122-e8649af98e5e" name="Default Changelist" comment="v1.0">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/pc.html" afterDir="false" />
+    <list default="true" id="145ef465-5948-47f3-8122-e8649af98e5e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/UserInSystem.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/controller/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/controller/AccountController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/controller/CatalogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/controller/CatalogController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/controller/CreatorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/controller/CreatorController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/controller/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/controller/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/entity/Assembly.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/entity/Assembly.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/entity/AssemblyHardware.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/entity/AssemblyHardware.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/entity/Hardware.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/entity/HardwareEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/entity/HardwareType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/entity/HardwareType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/repository/HardwareRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/repository/HardwareRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/repository/HardwareTypeRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/repository/HardwareTypeRepo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/AssemblyHardwareService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/AssemblyService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/CreatorService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/HardwareService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/HardwareTypeService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/ParserService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/UserService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/impl/AssemblyHardwareServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/service/impl/AssemblyHardwareServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/impl/AssemblyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/service/impl/AssemblyServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/impl/CreatorServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/service/impl/CreatorServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/impl/HardwareServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/service/impl/HardwareServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/impl/HardwareTypeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/service/impl/HardwareTypeServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/impl/ParserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/service/impl/ParserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/service/impl/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/catalog.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/catalog.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/main.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/account.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/account.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/catalog.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/catalog.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/loginbtn.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/loginbtn.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/menubar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/menubar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/account.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/account.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/catalog.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/catalog.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/hardware.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/hardware.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/pccreator.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/registration.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/registration.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/kursach.kotlin_module" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/kursach.kotlin_module" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/css/catalog.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/css/catalog.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/css/main.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/js/account.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/js/account.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/js/catalog.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/js/catalog.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/js/loginbtn.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/js/loginbtn.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/js/menubar.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/js/menubar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/account.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/account.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/catalog.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/catalog.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/hardware.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/hardware.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/pccreator.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/pccreator.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/registration.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/registration.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -372,6 +313,7 @@
       <workItem from="1591485344152" duration="8000" />
       <workItem from="1591542038845" duration="6000" />
       <workItem from="1591543601700" duration="23000" />
+      <workItem from="1592017906539" duration="481000" />
     </task>
     <task id="LOCAL-00001" summary="bd">
       <created>1576482485521</created>
@@ -415,7 +357,14 @@
       <option name="project" value="LOCAL" />
       <updated>1578072736490</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="v2.0">
+      <created>1592018100547</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1592018100547</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TodoView">
@@ -435,7 +384,8 @@
     <MESSAGE value="parser with schedule" />
     <MESSAGE value="changed bd structure" />
     <MESSAGE value="v1.0" />
-    <option name="LAST_COMMIT_MESSAGE" value="v1.0" />
+    <MESSAGE value="v2.0" />
+    <option name="LAST_COMMIT_MESSAGE" value="v2.0" />
   </component>
   <component name="WindowStateProjectService">
     <state x="72" y="181" key="#Assign_Data_Sources" timestamp="1588678634711">
@@ -464,11 +414,11 @@
     </state>
     <state x="202" y="270" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586366157450" />
     <state x="202" y="270" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1590768457261" />
-    <state x="112" y="114" key="CommitChangelistDialog2" timestamp="1592018016478">
+    <state x="112" y="114" key="CommitChangelistDialog2" timestamp="1592018093694">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="112" y="114" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586360623814" />
-    <state x="112" y="114" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1592018016478" />
+    <state x="112" y="114" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1592018093694" />
     <state width="1460" height="466" key="DebuggerActiveHint" timestamp="1591223128387">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -538,10 +488,11 @@
     </state>
     <state width="1877" height="341" key="GridCell.Tab.2.right/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1591148571812" />
     <state width="1877" height="341" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1591236526246" />
-    <state x="79" y="252" key="Vcs.Push.Dialog.v2" timestamp="1586360450570">
+    <state x="79" y="252" key="Vcs.Push.Dialog.v2" timestamp="1592018114527">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="79" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1586360450570" />
+    <state x="79" y="252" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1592018114527" />
     <state x="92" y="92" width="1736" height="856" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1591226088514">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
