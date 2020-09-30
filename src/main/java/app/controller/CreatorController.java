@@ -1,15 +1,14 @@
 package app.controller;
 
 import app.entity.HardwareEntity;
-import app.entity.HardwareFeature;
 import app.entity.User;
 import app.payload.Feature;
 import app.payload.Hardware;
 import app.payload.InputRanges;
-import app.service.*;
-import app.service.impl.CreatorServiceImpl;
+import app.service.impl.AssemblyService;
+import app.service.impl.CreatorService;
 import app.service.impl.HardwareFeatureService;
-import app.service.impl.UserServiceImpl;
+import app.service.impl.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +29,8 @@ public class CreatorController {
 
   public final AssemblyService assemblyService;
   public final HardwareFeatureService hardwareFeatureService;
-  public final CreatorServiceImpl creatorService;
-  public final UserServiceImpl userService;
+  public final CreatorService creatorService;
+  public final UserService userService;
 
   private ArrayList<HardwareEntity> hardwareEntityList;
   private ArrayList<Integer> featureNumList = new ArrayList<>();

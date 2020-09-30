@@ -8,9 +8,6 @@ import app.entity.HardwareFeature;
 import app.payload.HardwarePayload;
 import app.payload.Page;
 import app.payload.Products;
-import app.service.HardwareService;
-import app.service.HardwareTypeService;
-import app.service.ParserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
@@ -31,16 +28,15 @@ import java.util.Arrays;
 
 @Service
 @RequiredArgsConstructor
-public class ParserServiceImpl implements ParserService {
+public class ParserService {
 
-    private final HardwareServiceImpl hardwareService;
+    private final HardwareService hardwareService;
     private final HardwareTypeService hardwareTypeService;
     private final HardwareFeatureService hardwareFeatureService;
 
     boolean isDefect = false;
 
 //    @Scheduled(fixedRate = 604800000)
-    @Override
     public void start() {
         System.out.println(LocalTime.now());
 

@@ -1,21 +1,29 @@
 package app.service.impl;
 
+import app.common.service.AbstractService;
 import app.entity.HardwareEntity;
 import app.entity.HardwareFeature;
 import app.payload.Feature;
 import app.payload.Hardware;
 import app.repository.HardwareFeatureRepo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
-@RequiredArgsConstructor
-public class HardwareFeatureService {
+public class HardwareFeatureService extends AbstractService<HardwareFeature, HardwareFeatureRepo> {
 
   private final HardwareFeatureRepo hardwareFeatureRepo;
-  private final AssemblyHardwareServiceImpl assemblyHardwareService;
+  private final AssemblyHardwareService assemblyHardwareService;
+
+  @Autowired
+  public HardwareFeatureService(HardwareFeatureRepo repository, HardwareFeatureRepo hardwareFeatureRepo, AssemblyHardwareService assemblyHardwareService) {
+    super(repository);
+    this.hardwareFeatureRepo = hardwareFeatureRepo;
+    this.assemblyHardwareService = assemblyHardwareService;
+  }
 
   public HardwareFeature getByHardwareIdAndName(int id, String name) {
     return hardwareFeatureRepo.findByHardwareEntityIdAndName(id, name);
@@ -43,7 +51,7 @@ public class HardwareFeatureService {
   public List<HardwareFeature> getAllByNameAndHardwareType(
       String name,
       String type,
-      HardwareServiceImpl hardwareService
+      HardwareService hardwareService
   ) {
     List<HardwareEntity> hardwareList = hardwareService.getAllByType(type);
     List<HardwareFeature> featureList = (List<HardwareFeature>) getAllByName(name);
@@ -130,7 +138,7 @@ public class HardwareFeatureService {
     hardwareFeatureRepo.deleteById(id);
   }
 
-  public void deleteAll(HardwareServiceImpl hardwareService) {
+  public void deleteAll(HardwareService hardwareService) {
     ArrayList<HardwareEntity> hardwareList = (ArrayList<HardwareEntity>) hardwareService.getAll();
     HashSet<HardwareEntity> hardwareListFromAssemble = assemblyHardwareService.getAllHardwareSet();
 

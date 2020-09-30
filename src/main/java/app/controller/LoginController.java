@@ -1,7 +1,7 @@
 package app.controller;
 
 import app.entity.User;
-import app.service.impl.UserServiceImpl;
+import app.service.impl.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 public class LoginController {
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
     @GetMapping("/login")
     public String login(@RequestParam(value = "error", required = false) String error, Model model) {

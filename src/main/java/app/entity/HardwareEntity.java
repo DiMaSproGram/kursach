@@ -1,5 +1,6 @@
 package app.entity;
 
+import app.common.entity.AbstractEntity;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,19 +9,16 @@ import javax.persistence.*;
 import java.util.Comparator;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
-public class HardwareEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class HardwareEntity extends AbstractEntity {
 
     private String name;
     private String description;
     private double price;
     private String image;
     private String link;
-
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "hardware_type_id")

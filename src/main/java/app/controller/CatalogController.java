@@ -8,6 +8,7 @@ import app.payload.Hardware;
 import app.payload.Pagination;
 import app.service.*;
 import app.service.impl.HardwareFeatureService;
+import app.service.impl.HardwareService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

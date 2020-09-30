@@ -1,6 +1,9 @@
 package app.entity;
 
+import app.common.entity.AbstractEntity;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,13 +12,11 @@ import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "my_user")
-public class User implements UserDetails {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+public class User extends AbstractEntity implements UserDetails  {
 
     public String username;
     public String password;

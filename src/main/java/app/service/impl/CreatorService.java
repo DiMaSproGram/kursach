@@ -1,10 +1,12 @@
 package app.service.impl;
 
 import app.common.StringUtils;
+import app.common.service.AbstractService;
 import app.payload.Feature;
 import app.payload.Hardware;
 import app.entity.*;
 import app.payload.InputRanges;
+import app.repository.AssemblyRepo;
 import app.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,13 +15,12 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-public class CreatorServiceImpl implements CreatorService {
+public class CreatorService {
 
     private final HardwareService hardwareService;
     private final HardwareFeatureService hardwareFeatureService;
     private ArrayList<HardwareEntity> hardwareList;
 
-    @Override
     public ArrayList<HardwareEntity> create(
         double price,
         String goal,
@@ -83,7 +84,6 @@ public class CreatorServiceImpl implements CreatorService {
         return new ArrayList<>(linkedList);
     }
 
-    @Override
     public ArrayList<HardwareEntity> create(double price, String goal, boolean isSSD) {
         hardwareList = new ArrayList<>();
         Goals goals = goal.equals("1")

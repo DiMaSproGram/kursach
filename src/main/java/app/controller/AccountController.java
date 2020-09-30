@@ -2,23 +2,15 @@ package app.controller;
 
 import app.entity.HardwareEntity;
 import app.entity.User;
-import app.service.AssemblyService;
-import app.service.HardwareService;
-import app.service.impl.UserServiceImpl;
-import com.api2pdf.client.Api2PdfClient;
-import com.api2pdf.models.Api2PdfResponse;
+import app.service.impl.AssemblyService;
+import app.service.impl.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -28,7 +20,7 @@ import java.util.HashMap;
 public class AccountController {
 
     public final AssemblyService assemblyService;
-    public final UserServiceImpl userService;
+    public final UserService userService;
 
     @GetMapping
     public String account(@AuthenticationPrincipal User user, Model model) {

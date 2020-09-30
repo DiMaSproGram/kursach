@@ -1,7 +1,10 @@
 package app.service.impl;
 
+import app.common.service.AbstractService;
+import app.entity.HardwareType;
 import app.entity.Role;
 import app.entity.User;
+import app.repository.HardwareTypeRepo;
 import app.repository.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +18,14 @@ import org.springframework.ui.Model;
 import java.util.Collections;
 
 @Service
-@RequiredArgsConstructor
-public class UserServiceImpl implements UserDetailsService {
+public class UserService extends AbstractService<User, UserRepo> {
 
-    private final UserRepo userRepo;
+    public UserService(UserRepo repository) {
+        super(repository);
+    }
 
-    @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepo.findByUsername(username);
+        return repository.findByUsername(username);
     }
 
     public boolean register(User user, Model model) {
@@ -43,7 +46,7 @@ public class UserServiceImpl implements UserDetailsService {
             new BCryptPasswordEncoder(11)
                 .encode(user.getPassword())
         );
-        userRepo.save(user);
+        repository.save(user);
         return true;
     }
 }

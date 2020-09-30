@@ -1,33 +1,30 @@
 package app.service.impl;
 
+import app.common.service.AbstractService;
 import app.entity.Assembly;
 import app.entity.AssemblyHardware;
 import app.entity.HardwareEntity;
 import app.repository.AssemblyHardwareRepo;
-import app.service.AssemblyHardwareService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 
 @Service
-@RequiredArgsConstructor
-public class AssemblyHardwareServiceImpl implements AssemblyHardwareService {
+public class AssemblyHardwareService extends AbstractService<AssemblyHardware, AssemblyHardwareRepo> {
 
-  private final AssemblyHardwareRepo assemblyHardwareRepo;
+  public AssemblyHardwareService(AssemblyHardwareRepo repository) {
+    super(repository);
+  }
 
-  @Override
   public void save(Assembly assembly, HardwareEntity[] hardwareEntity) {
     for (HardwareEntity hardware : hardwareEntity) {
-      assemblyHardwareRepo.save(new AssemblyHardware(assembly, hardware));
+      repository.save(new AssemblyHardware(assembly, hardware));
     }
   }
 
-  @Override
   public Iterable<HardwareEntity> getAssembly(int id) {
-    ArrayList<AssemblyHardware> arrayList = (ArrayList<AssemblyHardware>) assemblyHardwareRepo.findAll();
+    ArrayList<AssemblyHardware> arrayList = (ArrayList<AssemblyHardware>) repository.findAll();
     ArrayList<HardwareEntity> hardwareEntityList = new ArrayList<>();
 
     for (AssemblyHardware assemblyHardware : arrayList) {
@@ -39,14 +36,14 @@ public class AssemblyHardwareServiceImpl implements AssemblyHardwareService {
   }
 
   public ArrayList<HardwareEntity> getAllHardware() {
-    ArrayList<AssemblyHardware> list = (ArrayList<AssemblyHardware>) assemblyHardwareRepo.findAll();
+    ArrayList<AssemblyHardware> list = (ArrayList<AssemblyHardware>) repository.findAll();
     ArrayList<HardwareEntity> result = new ArrayList<>();
     list.forEach(el -> result.add(el.getHardwareEntity()));
     return result;
   }
 
   public HashSet<HardwareEntity> getAllHardwareSet() {
-    ArrayList<AssemblyHardware> list = (ArrayList<AssemblyHardware>) assemblyHardwareRepo.findAll();
+    ArrayList<AssemblyHardware> list = (ArrayList<AssemblyHardware>) repository.findAll();
     HashSet<HardwareEntity> result = new HashSet<>();
     list.forEach(el -> result.add(el.getHardwareEntity()));
     return result;

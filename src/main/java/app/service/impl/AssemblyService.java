@@ -1,12 +1,10 @@
 package app.service.impl;
 
+import app.common.service.AbstractService;
 import app.entity.Assembly;
 import app.entity.HardwareEntity;
 import app.entity.User;
 import app.repository.AssemblyRepo;
-import app.service.AssemblyHardwareService;
-import app.service.AssemblyService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,22 +13,25 @@ import java.util.HashMap;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
-public class AssemblyServiceImpl implements AssemblyService {
+//@RequiredArgsConstructor
+public class AssemblyService extends AbstractService<Assembly, AssemblyRepo> {
 
-    private final AssemblyRepo assemblyRepo;
     private final AssemblyHardwareService assemblyHardwareService;
 
-    @Override
+    @Autowired
+    public AssemblyService(AssemblyRepo repository, AssemblyHardwareService assemblyHardwareService) {
+        super(repository);
+        this.assemblyHardwareService = assemblyHardwareService;
+    }
+
     public void save(HardwareEntity[] arr, User user, double totalPrice) {
         Assembly assembly = new Assembly( user, totalPrice);
-        assemblyRepo.save(assembly);
+        repository.save(assembly);
         assemblyHardwareService.save(assembly, arr);
     }
 
-    @Override
     public HashMap<String, ArrayList<HardwareEntity>> getByUser(int userId) {
-        ArrayList<Assembly> allAssembly = (ArrayList<Assembly>) assemblyRepo.findAll();
+        ArrayList<Assembly> allAssembly = (ArrayList<Assembly>) repository.findAll();
         HashMap<String, ArrayList<HardwareEntity>> assemblyMap = new HashMap<>();
         int i = 0;
         for(Assembly assembly : allAssembly) {

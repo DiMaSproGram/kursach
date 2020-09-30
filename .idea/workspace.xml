@@ -3,47 +3,37 @@
   <component name="ChangeListManager">
     <list default="true" id="145ef465-5948-47f3-8122-e8649af98e5e" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/common/StringUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/common/StringUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/app/config/DemoSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/config/DemoSecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/app/controller/AccountController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/controller/AccountController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/controller/CatalogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/controller/CatalogController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/app/controller/CreatorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/controller/CreatorController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/app/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/controller/LoginController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/app/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/controller/MainController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/AssemblyHardwareService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/service/AssemblyHardwareService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/HardwareService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/service/HardwareService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/impl/AssemblyHardwareServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/service/impl/AssemblyHardwareServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/impl/AssemblyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/service/impl/AssemblyServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/impl/CreatorServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/service/impl/CreatorServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/entity/Assembly.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/entity/Assembly.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/entity/AssemblyHardware.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/entity/AssemblyHardware.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/entity/HardwareEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/entity/HardwareEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/entity/HardwareFeature.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/entity/HardwareFeature.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/entity/HardwareType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/entity/HardwareType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/repository/AssemblyHardwareRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/repository/AssemblyHardwareRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/repository/AssemblyRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/repository/AssemblyRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/repository/HardwareFeatureRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/repository/HardwareFeatureRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/repository/HardwareRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/repository/HardwareRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/repository/HardwareTypeRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/repository/HardwareTypeRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/repository/UserRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/repository/UserRepo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/AssemblyHardwareService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/AssemblyService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/CreatorService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/HardwareService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/HardwareTypeService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/ParserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/impl/AssemblyHardwareServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/service/impl/AssemblyHardwareService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/impl/AssemblyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/service/impl/AssemblyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/impl/CreatorServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/service/impl/CreatorService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/app/service/impl/HardwareFeatureService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/service/impl/HardwareFeatureService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/impl/HardwareServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/service/impl/HardwareServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/impl/HardwareTypeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/service/impl/HardwareTypeServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/impl/ParserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/service/impl/ParserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/service/impl/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/account.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/account.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/hardware.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/hardware.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/registration.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/registration.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/app/common/StringUtils.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/app/common/StringUtils.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/app/config/DemoSecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/app/config/DemoSecurityConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/app/controller/AccountController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/app/controller/AccountController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/app/controller/CatalogController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/app/controller/CatalogController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/app/controller/CreatorController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/app/controller/CreatorController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/app/controller/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/app/controller/LoginController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/app/controller/MainController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/app/controller/MainController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/app/service/AssemblyHardwareService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/app/service/AssemblyHardwareService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/app/service/HardwareService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/app/service/HardwareService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/app/service/impl/AssemblyHardwareServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/app/service/impl/AssemblyHardwareServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/app/service/impl/CreatorServiceImpl$Goals.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/app/service/impl/CreatorServiceImpl$Goals.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/app/service/impl/CreatorServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/app/service/impl/CreatorServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/app/service/impl/HardwareFeatureService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/app/service/impl/HardwareFeatureService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/app/service/impl/HardwareServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/app/service/impl/HardwareServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/app/service/impl/ParserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/app/service/impl/ParserServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/app/service/impl/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/app/service/impl/UserServiceImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/account.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/account.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/hardware.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/hardware.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/login.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/templates/registration.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/templates/registration.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/impl/HardwareServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/service/impl/HardwareService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/impl/HardwareTypeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/service/impl/HardwareTypeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/impl/ParserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/service/impl/ParserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/app/service/impl/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/app/service/impl/UserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -397,7 +387,7 @@
       <workItem from="1601377066324" duration="121000" />
       <workItem from="1601386024166" duration="4257000" />
       <workItem from="1601403823018" duration="6109000" />
-      <workItem from="1601477953745" duration="3643000" />
+      <workItem from="1601477953745" duration="6550000" />
     </task>
     <task id="LOCAL-00001" summary="bd">
       <created>1576482485521</created>
@@ -455,7 +445,14 @@
       <option name="project" value="LOCAL" />
       <updated>1592018430725</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="v2.0">
+      <created>1601489055801</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1601489055801</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TodoView">
@@ -479,10 +476,10 @@
     <option name="LAST_COMMIT_MESSAGE" value="v2.0" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="765" y="229" key="#com.intellij.ide.util.MemberChooser" timestamp="1601487628636">
+    <state x="765" y="229" key="#com.intellij.ide.util.MemberChooser" timestamp="1601491435551">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="765" y="229" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1601487628636" />
+    <state x="765" y="229" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1601491435551" />
     <state x="689" y="303" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1593161000550">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -491,10 +488,15 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="620" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1600811659503" />
-    <state x="202" y="270" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1593123230485">
+    <state x="202" y="270" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1601490934119">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="202" y="270" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1601490934119" />
     <state x="202" y="270" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1593123230485" />
+    <state x="585" y="114" key="CommitChangelistDialog2" timestamp="1601492020520">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="585" y="114" key="CommitChangelistDialog2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1601492020520" />
     <state width="1460" height="466" key="DebuggerActiveHint" timestamp="1601411653981">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -568,6 +570,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="440" y="94" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1593161002034" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1601489068716">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1601489068716" />
     <state width="968" height="528" key="XDebugger.FullValuePopup" timestamp="1600378756112">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -589,19 +595,5 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="666" y="139" key="refactoring.ChangeSignatureDialog/0.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1600713579565" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/app/service/impl/HardwareServiceImpl.java</url>
-          <line>115</line>
-          <properties>
-            <option name="lambda-ordinal" value="0" />
-          </properties>
-          <option name="timeStamp" value="28" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
