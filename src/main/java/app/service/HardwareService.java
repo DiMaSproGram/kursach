@@ -1,4 +1,4 @@
-package app.service.impl;
+package app.service;
 
 import app.common.Expression;
 import app.common.StringUtils;
@@ -7,9 +7,7 @@ import app.entity.HardwareEntity;
 import app.entity.HardwareFeature;
 import app.payload.Hardware;
 import app.payload.Pagination;
-import app.repository.HardwareFeatureRepo;
 import app.repository.HardwareRepo;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -31,10 +29,6 @@ public class HardwareService extends AbstractService<HardwareEntity, HardwareRep
         super(repository);
         this.hardwareFeatureService = hardwareFeatureService;
         this.assemblyHardwareService = assemblyHardwareService;
-    }
-
-    public Iterable<HardwareEntity> getAll() {
-        return repository.findAll();
     }
 
     public List<HardwareEntity> getAllByType(String type) {
@@ -225,7 +219,6 @@ public class HardwareService extends AbstractService<HardwareEntity, HardwareRep
             hardwaresFilteredByFeatures.sort(comparator);
             return hardwaresFilteredByFeatures;
         } else {
-//            return getAllByType(type);
             return new ArrayList<>();
         }
         hardwareList.sort(comparator);
@@ -268,7 +261,6 @@ public class HardwareService extends AbstractService<HardwareEntity, HardwareRep
             hardwaresFilteredByFeatures.sort(comparator);
             return hardwaresFilteredByFeatures;
         } else {
-//            return getAllByType(type);
             return new ArrayList<>();
         }
         hardwareList.sort(comparator);
@@ -287,7 +279,7 @@ public class HardwareService extends AbstractService<HardwareEntity, HardwareRep
     }
 
     public void deleteAll() {
-        ArrayList<HardwareEntity> hardwareList = (ArrayList<HardwareEntity>) getAll();
+        ArrayList<HardwareEntity> hardwareList = (ArrayList<HardwareEntity>) repository.findAll();
         ArrayList<HardwareEntity> hardwareListFromAssemble = assemblyHardwareService.getAllHardware();
 
         for (HardwareEntity hardware : hardwareList) {
@@ -295,10 +287,6 @@ public class HardwareService extends AbstractService<HardwareEntity, HardwareRep
                 repository.delete(hardware);
             }
         }
-    }
-
-    public HardwareEntity findById(int id) {
-        return repository.findById(id).get();
     }
 
     public HardwareEntity findByName(String name) {

@@ -1,4 +1,4 @@
-package app.service.impl;
+package app.service;
 
 import app.common.service.AbstractService;
 import app.entity.Assembly;

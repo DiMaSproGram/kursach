@@ -1,7 +1,7 @@
 package app.controller;
 
 import app.entity.User;
-import app.service.impl.UserService;
+import app.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

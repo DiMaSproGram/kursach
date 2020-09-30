@@ -1,4 +1,4 @@
-package app.service.impl;
+package app.service;
 
 import app.common.service.AbstractService;
 import app.entity.Assembly;
@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 
 @Service
-//@RequiredArgsConstructor
 public class AssemblyService extends AbstractService<Assembly, AssemblyRepo> {
 
     private final AssemblyHardwareService assemblyHardwareService;

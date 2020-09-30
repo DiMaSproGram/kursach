@@ -1,7 +1,7 @@
 package app.controller;
 
 import app.entity.User;
-import app.service.impl.ParserService;
+import app.service.ParserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;

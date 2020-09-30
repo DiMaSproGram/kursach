@@ -1,4 +1,4 @@
-package app.service.impl;
+package app.service;
 
 import app.common.service.AbstractService;
 import app.entity.HardwareEntity;
@@ -6,7 +6,6 @@ import app.entity.HardwareFeature;
 import app.payload.Feature;
 import app.payload.Hardware;
 import app.repository.HardwareFeatureRepo;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -134,12 +133,8 @@ public class HardwareFeatureService extends AbstractService<HardwareFeature, Har
     }
   }
 
-  public void deleteById(int id) {
-    hardwareFeatureRepo.deleteById(id);
-  }
-
   public void deleteAll(HardwareService hardwareService) {
-    ArrayList<HardwareEntity> hardwareList = (ArrayList<HardwareEntity>) hardwareService.getAll();
+    ArrayList<HardwareEntity> hardwareList = (ArrayList<HardwareEntity>) hardwareService.findAll();
     HashSet<HardwareEntity> hardwareListFromAssemble = assemblyHardwareService.getAllHardwareSet();
 
     for (HardwareEntity hardware : hardwareList) {

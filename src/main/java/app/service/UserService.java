@@ -1,4 +1,4 @@
-package app.service.impl;
+package app.service;
 
 import app.common.service.AbstractService;
 import app.entity.HardwareType;
@@ -18,7 +18,7 @@ import org.springframework.ui.Model;
 import java.util.Collections;
 
 @Service
-public class UserService extends AbstractService<User, UserRepo> {
+public class UserService extends AbstractService<User, UserRepo> implements UserDetailsService {
 
     public UserService(UserRepo repository) {
         super(repository);

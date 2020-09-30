@@ -1,4 +1,4 @@
-package app.service.impl;
+package app.service;
 
 import app.common.service.AbstractService;
 import app.entity.HardwareEntity;
@@ -33,13 +33,6 @@ public class HardwareTypeService extends AbstractService<HardwareType, HardwareT
         return repository.findAll();
     }
 
-    public void addHardwareType(String name) {
-        repository.save(new HardwareType(name));
-    }
-
-    public boolean isExist(int id) {
-        return repository.findById(id).isPresent();
-    }
 
     public HardwareType findByName(String name) {
         ArrayList<HardwareType> arrayList = (ArrayList<HardwareType>) repository.findAll();
@@ -49,9 +42,5 @@ public class HardwareTypeService extends AbstractService<HardwareType, HardwareT
             }
         }
         return null;
-    }
-
-    public HardwareType findById(int id) {
-        return repository.findById(id).get();
     }
 }
