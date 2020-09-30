@@ -30,30 +30,21 @@ public class AssemblyServiceImpl implements AssemblyService {
 
     @Override
     public HashMap<String, ArrayList<HardwareEntity>> getByUser(int userId) {
-//        ArrayList<ArrayList<HardwareEntity>> assemblyList = new ArrayList<>();
         ArrayList<Assembly> allAssembly = (ArrayList<Assembly>) assemblyRepo.findAll();
         HashMap<String, ArrayList<HardwareEntity>> assemblyMap = new HashMap<>();
         int i = 0;
         for(Assembly assembly : allAssembly) {
             if (assembly.getUser().getId() == userId) {
-                String goal = defineGoal((List<HardwareEntity>) assemblyHardwareService.getAssembly(assembly.getId()));
+                String goal = defineGoal(
+                    (List<HardwareEntity>) assemblyHardwareService.getAssembly(assembly.getId())
+                );
                 assemblyMap.put(
                     goal + assembly.getTotalPrice() + "руб.@#collapse" + i,
                     (ArrayList<HardwareEntity>) assemblyHardwareService.getAssembly(assembly.getId())
                 );
                 i++;
-
-
-//                assemblyList.add((ArrayList<HardwareEntity>) assemblyHardwareService.getAssembly(a.getId()));
             }
         }
-
-//        for (ArrayList<HardwareEntity> hardwareList : assemblyList) {
-//            assemblyMap.put(
-//                Double.toString(assembly.getTotalPrice()) + "@#collapse" + i,
-//                (ArrayList<HardwareEntity>) assemblyHardwareService.getAssembly(assembly.getId())
-//            );
-//        }
 
         return assemblyMap;
     }

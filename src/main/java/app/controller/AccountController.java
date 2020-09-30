@@ -28,17 +28,14 @@ import java.util.HashMap;
 public class AccountController {
 
     public final AssemblyService assemblyService;
-    public final HardwareService hardwareService;
     public final UserServiceImpl userService;
-
-    private Api2PdfClient api2PdfClient = new Api2PdfClient(
-        "e3fefcd4-f652-4709-ba2e-ede5e09560e1"
-    );
 
     @GetMapping
     public String account(@AuthenticationPrincipal User user, Model model) {
         HashMap<String, ArrayList<HardwareEntity>> assemblyMap = assemblyService.getByUser(
-            userService.loadUserByUsername(user.getUsername()).getId()
+            userService
+                .loadUserByUsername(user.getUsername())
+                .getId()
         );
 
         model.addAttribute("user", user.getUsername());
@@ -47,18 +44,4 @@ public class AccountController {
         return "account";
     }
 
-    @PostMapping("/pdf")
-    public String convertToPdf(Model model) throws IOException {
-        URL bhv = new URL("http://localhost:8080/account");
-        BufferedReader br = new BufferedReader(new InputStreamReader(bhv.openStream(),"UTF-8"));
-        StringBuilder stringBuilder = new StringBuilder();
-        String temp;
-
-        while((temp = br.readLine())!= null)
-            stringBuilder.append(temp);
-        br.close();
-        Api2PdfResponse api2PdfResponse = api2PdfClient.wkhtmlToPdfFromHtml(stringBuilder.toString(), true, "accountInfo");
-        model.addAttribute("pdfLink", api2PdfResponse.getPdf());
-        return "pdfLink";
-    }
 }

@@ -5,11 +5,12 @@ import app.common.StringUtils;
 import app.entity.HardwareEntity;
 import app.entity.HardwareFeature;
 import app.payload.Hardware;
+import app.payload.Pagination;
 import app.repository.HardwareRepo;
 import app.service.HardwareService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.util.*;
 
@@ -53,10 +54,18 @@ public class HardwareServiceImpl implements HardwareService {
     }
 
     @Override
-    public List<HardwareEntity> getAllBySearching(ArrayList<HardwareEntity> inputList, String search, String type) {
-        List<HardwareEntity> hardwares = getAllBySearching(search, type);
-        hardwares.removeIf(hardware -> !inputList.contains(hardware));
-        return hardwares;
+    public List<HardwareEntity> getAllBySearching(
+        ArrayList<HardwareEntity> inputList,
+        String search,
+        String type,
+        Model model
+    ) {
+        if (search != null && !search.isEmpty()) {
+            List<HardwareEntity> hardwares = getAllBySearching(search, type);
+            hardwares.removeIf(hardware -> !inputList.contains(hardware));
+            return hardwares;
+        }
+        return inputList;
     }
 
     @Override
@@ -87,7 +96,10 @@ public class HardwareServiceImpl implements HardwareService {
     @Override
     public List<HardwareEntity> getAllByFeature(Hardware.Feature feature, String featureVal) {
         List<HardwareEntity> hardwareList = new ArrayList<>();
-        List<HardwareFeature> featureList = (List<HardwareFeature>) hardwareFeatureService.getAllByNameAndValue(feature.getName(), featureVal);
+        List<HardwareFeature> featureList = (List<HardwareFeature>) hardwareFeatureService.getAllByNameAndValue(
+            feature.getName(),
+            featureVal
+        );
 
         featureList.forEach(elem -> hardwareList.add(elem.getHardwareEntity()));
         return hardwareList;
@@ -101,7 +113,7 @@ public class HardwareServiceImpl implements HardwareService {
             type,
             this
         );
-        featureList.removeIf(elem -> !elem.getValue().equals(feature.split("#")[1]));
+        featureList.removeIf(elem -> !elem.getValue().contains(feature.split("#")[1]));
         featureList.forEach(elem -> hardwares.add(elem.getHardwareEntity()));
         return hardwares;
     }
@@ -122,7 +134,12 @@ public class HardwareServiceImpl implements HardwareService {
     }
 
     @Override
-    public List<HardwareEntity> filterByPrice(ArrayList<HardwareEntity> inputList, double minPrice, double maxPrice, String type) {
+    public List<HardwareEntity> filterByPrice(
+        ArrayList<HardwareEntity> inputList,
+        double minPrice,
+        double maxPrice,
+        String type
+    ) {
         List<HardwareEntity> hardwares = filterByPrice(minPrice, maxPrice, type);
         hardwares.removeIf(hardware -> !inputList.contains(hardware));
         return hardwares;
@@ -132,7 +149,7 @@ public class HardwareServiceImpl implements HardwareService {
     public List<HardwareEntity> filterByFeatures(List<String> features, String type) {
         List<HardwareEntity> hardwares = new ArrayList<>();
         int count = 0;
-        for (String feature: features) {
+        for (String feature : features) {
             if(!feature.isEmpty()) {
                 hardwares.addAll(getAllByFeature(feature, type));
                 count ++;
@@ -168,7 +185,11 @@ public class HardwareServiceImpl implements HardwareService {
         return hardwares;
     }
     @Override
-    public List<HardwareEntity> filterByFeatures(ArrayList<HardwareEntity> inputList, List<String> features, String type) {
+    public List<HardwareEntity> filterByFeatures(
+        ArrayList<HardwareEntity> inputList,
+        List<String> features,
+        String type
+    ) {
         List<HardwareEntity> hardwares = filterByFeatures(features, type);
         hardwares.removeIf(hardware -> !inputList.contains(hardware));
         return hardwares;
@@ -213,7 +234,13 @@ public class HardwareServiceImpl implements HardwareService {
     }
 
     @Override
-    public List<HardwareEntity> filterByAll(ArrayList<HardwareEntity> inputList, double minPrice, double maxPrice, List<String> features, String type) {
+    public List<HardwareEntity> filterByAll(
+        ArrayList<HardwareEntity> inputList,
+        double minPrice,
+        double maxPrice,
+        List<String> features,
+        String type
+    ) {
         boolean isPrice = false;
         boolean isFilter = false;
         List<HardwareEntity> hardwareList = new ArrayList<>();
@@ -282,6 +309,41 @@ public class HardwareServiceImpl implements HardwareService {
     @Override
     public HardwareEntity findByName(String name) {
         return hardwareRepo.findByName(name);
+    }
+
+    @Override
+    public void fillPaginationList(
+        String type,
+        ArrayList<ArrayList<HardwareEntity>> paginationList,
+        ArrayList<Pagination> pagesMap
+    ) {
+        List<HardwareEntity> hardwareList = getAllByType(type);
+        paginationList.clear();
+        pagesMap.clear();
+        ArrayList<HardwareEntity> tempList = new ArrayList<>();
+
+        for (int i = 0; i < hardwareList.size(); ++i){
+            if (i > 19 && i % 20 == 0) {
+                paginationList.add(new ArrayList<>(tempList));
+                pagesMap.add(
+                    new Pagination(
+                        "/catalog/" + type + "/" + paginationList.size(),
+                        paginationList.size()
+                    )
+                );
+                tempList.clear();
+            }
+            tempList.add(hardwareList.get(i));
+        }
+        if (!tempList.isEmpty()) {
+            paginationList.add(new ArrayList<>(tempList));
+            pagesMap.add(
+                new Pagination(
+                    "/catalog/" + type + "/" + paginationList.size(),
+                    paginationList.size()
+                )
+            );
+        }
     }
 
     Comparator<HardwareEntity> comparator = (hardware1, hardware2) -> {

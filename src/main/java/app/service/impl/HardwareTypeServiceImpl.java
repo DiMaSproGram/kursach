@@ -43,9 +43,11 @@ public class HardwareTypeServiceImpl implements HardwareTypeService {
     @Override
     public HardwareType findByName(String name) {
         ArrayList<HardwareType> arrayList = (ArrayList<HardwareType>) hardwareTypeRepo.findAll();
-        for(HardwareType hardwareType : arrayList)
-            if(hardwareType.getName().equals(name))
+        for(HardwareType hardwareType : arrayList) {
+            if (hardwareType.getName().equals(name)) {
                 return hardwareType;
+            }
+        }
         return null;
     }
 

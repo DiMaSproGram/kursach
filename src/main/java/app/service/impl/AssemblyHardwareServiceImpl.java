@@ -10,39 +10,46 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 @Service
 @RequiredArgsConstructor
 public class AssemblyHardwareServiceImpl implements AssemblyHardwareService {
 
-    private final AssemblyHardwareRepo assemblyHardwareRepo;
+  private final AssemblyHardwareRepo assemblyHardwareRepo;
 
-    @Override
-    public void save(Assembly assembly, HardwareEntity[] hardwareEntity) {
-        for (HardwareEntity hardware : hardwareEntity) {
-            assemblyHardwareRepo.save(new AssemblyHardware(assembly, hardware));
-        }
+  @Override
+  public void save(Assembly assembly, HardwareEntity[] hardwareEntity) {
+    for (HardwareEntity hardware : hardwareEntity) {
+      assemblyHardwareRepo.save(new AssemblyHardware(assembly, hardware));
     }
+  }
 
-    @Override
-    public Iterable<HardwareEntity> getAssembly(int id) {
-        ArrayList<AssemblyHardware> arrayList = (ArrayList<AssemblyHardware>) assemblyHardwareRepo.findAll();
-        ArrayList<HardwareEntity> hardwareEntityList = new ArrayList<>();
+  @Override
+  public Iterable<HardwareEntity> getAssembly(int id) {
+    ArrayList<AssemblyHardware> arrayList = (ArrayList<AssemblyHardware>) assemblyHardwareRepo.findAll();
+    ArrayList<HardwareEntity> hardwareEntityList = new ArrayList<>();
 
-        for(AssemblyHardware assemblyHardware : arrayList)
-            if(assemblyHardware.getAssembly().getId() == id)
-                hardwareEntityList.add(assemblyHardware.getHardwareEntity());
-
-        return hardwareEntityList;
+    for (AssemblyHardware assemblyHardware : arrayList) {
+      if (assemblyHardware.getAssembly().getId() == id) {
+        hardwareEntityList.add(assemblyHardware.getHardwareEntity());
+      }
     }
+    return hardwareEntityList;
+  }
 
-    @Override
-    public ArrayList<HardwareEntity> getAllHardware() {
-        ArrayList<AssemblyHardware> list = (ArrayList<AssemblyHardware>) assemblyHardwareRepo.findAll();
-        ArrayList<HardwareEntity> result = new ArrayList<>();
-        list.forEach(el -> result.add(el.getHardwareEntity()));
-        return result;
-    }
+  public ArrayList<HardwareEntity> getAllHardware() {
+    ArrayList<AssemblyHardware> list = (ArrayList<AssemblyHardware>) assemblyHardwareRepo.findAll();
+    ArrayList<HardwareEntity> result = new ArrayList<>();
+    list.forEach(el -> result.add(el.getHardwareEntity()));
+    return result;
+  }
 
+  public HashSet<HardwareEntity> getAllHardwareSet() {
+    ArrayList<AssemblyHardware> list = (ArrayList<AssemblyHardware>) assemblyHardwareRepo.findAll();
+    HashSet<HardwareEntity> result = new HashSet<>();
+    list.forEach(el -> result.add(el.getHardwareEntity()));
+    return result;
+  }
 
 }

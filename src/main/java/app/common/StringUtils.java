@@ -9,6 +9,7 @@ public class StringUtils {
 
   public static boolean haveAllStrings(String o, List<String> list) {
     boolean isHave = true;
+
     for(String elem : list) {
       if (!elem.equals(o)) {
         isHave = false;

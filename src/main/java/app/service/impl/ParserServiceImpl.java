@@ -1,6 +1,7 @@
 package app.service.impl;
 
 import app.common.StringUtils;
+import app.common.ThreadExec;
 import app.payload.Hardware;
 import app.entity.HardwareEntity;
 import app.entity.HardwareFeature;
@@ -41,22 +42,17 @@ public class ParserServiceImpl implements ParserService {
 //    @Scheduled(fixedRate = 604800000)
     @Override
     public void start() {
-        try {
-            System.out.println(LocalTime.now());
+        System.out.println(LocalTime.now());
 
-            hardwareFeatureService.deleteAll(hardwareService);
-            hardwareService.deleteAll();
+        hardwareFeatureService.deleteAll(hardwareService);
+        hardwareService.deleteAll();
 
-//            parsing(Hardware.HDD);
-            for (Hardware hardware : Hardware.values()) {
-                parsing(hardware);
-                System.out.println(hardware.getName() + " are parsed");
-            }
-
-            System.out.println(LocalTime.now());
-        } catch (IOException e) {
-            e.printStackTrace();
+        for (Hardware hardware : Hardware.values()) {
+            new ThreadExec(this::parsing, hardware).run();
+            System.out.println(hardware.getName() + " are parsed");
         }
+
+        System.out.println(LocalTime.now());
     }
 
     private void parsing(Hardware hardware) throws IOException {
@@ -66,9 +62,8 @@ public class ParserServiceImpl implements ParserService {
             .readerFor(Page.class)
             .readValue(json);
 
-        while (page <= Integer.parseInt(lastPage.getLastPage())) {
+        for (; page <= Integer.parseInt(lastPage.getLastPage()); page++) {
             parsingPage(hardware, hardware.getParseUrl() + page);
-            page++;
         }
     }
 
@@ -107,7 +102,11 @@ public class ParserServiceImpl implements ParserService {
         }
     }
 
-    private HardwareFeature parseHardwareFeature(Hardware.Feature feature, String hardwareUrl, HardwareEntity hardwareEntity) throws IOException {
+    private HardwareFeature parseHardwareFeature(
+        Hardware.Feature feature,
+        String hardwareUrl,
+        HardwareEntity hardwareEntity
+    ) throws IOException {
         if (feature == Hardware.Feature.BOX) {
             return new HardwareFeature(
                 feature.getName(),
@@ -143,8 +142,11 @@ public class ParserServiceImpl implements ParserService {
         if (value.equals("")) {
             isDefect = true;
         }
-        return new HardwareFeature(feature.getName(), StringUtils.trimParenthesesContent(value), hardwareService.findByName(hardwareEntity.getName()));
-//        return new HardwareFeature(feature.getName(), value, hardwareService.findByName(hardwareEntity.getName()));
+        return new HardwareFeature(
+            feature.getName(),
+            StringUtils.trimParenthesesContent(value),
+            hardwareService.findByName(hardwareEntity.getName())
+        );
     }
 
     private String doRequest(String requestUrl, String requestType) throws IOException {
@@ -164,120 +166,4 @@ public class ParserServiceImpl implements ParserService {
 
         return content.toString();
     }
-
-//    private void parsing(Hardware hardware) throws IOException {
-//        Document doc;
-//        Elements ul;
-//        Elements li;
-//        String parserUrl = hardware.getParseUrl();
-//
-//        while (true) {
-//            if (parsePage(hardware, parserUrl) == 1) {
-//                break;
-//            }
-//            doc = Jsoup.connect(parserUrl).get();
-//            ul = doc.select("ul.pagination");
-//            if (ul.toString().equals("")) {
-//                break;
-//            }
-//            li = ul.select("li");
-//            if(li.last().attr("class").equals("active")) {
-//                break;
-//            }
-//            parserUrl = li.get(li.size() - 2).select("a").attr("href");
-//            System.out.println(parserUrl);
-//        }
-//    }
-//
-//    private int parsePage(Hardware hardware, String url) throws IOException {
-//        Document doc = Jsoup.connect(url).get();
-//        List<Element> productList = doc.select("div.product-thumb");
-//        Element p;
-//        String title;
-//        String imageLink;
-//        String hardwareLink;
-//        double price;
-//
-//        for(int i = 0; i < productList.size(); ++i) {
-//            if (i % 5 != 0) {
-//                continue;
-//            }
-//
-//            p = productList.get(i).select("div.caption .price").first();
-//            String priceTitle = p.attr("data-price");
-//            if (p.text().equals("Товар отсутствует")) {
-//                return 1;
-//            }
-//            price = Double.parseDouble(priceTitle);
-//
-//            title = productList.get(i).select("div.caption a").text();
-//            title = trimRus(title);
-//
-//            imageLink = productList.get(i).select("div.image a img").first().attr("src");
-//
-//            hardwareLink = productList.get(i).select("div.caption a").attr("href");
-//
-//            if (hardware.getFeature() != Hardware.Feature.NONE) {
-//                hardwareService.addHardware(
-//                    new HardwareEntity(
-//                        title,
-//                        price,
-//                        imageLink,
-//                        hardwareLink,
-//                        hardwareTypeService.findByName(hardware.getName()),
-//                        parseHardware(hardware, hardwareLink)
-//                    )
-//                );
-//            }
-//            else {
-//                hardwareService.addHardware(
-//                    new HardwareEntity(
-//                        title,
-//                        price,
-//                        imageLink,
-//                        hardwareLink,
-//                        hardwareTypeService.findByName(hardware.getName())
-//                    )
-//                );
-//            }
-//
-//            System.out.println(title + " " + price + " " + imageLink);
-//        }
-//        return 0;
-//    }
-//
-//    private HardwareFeature parseHardware(Hardware hardware, String url) throws IOException {
-//        Document doc = Jsoup.connect(url).get();
-//        String productDataRowName = "div.product-data.row";
-//        int productDataRowNum = 1;
-//        String colValueName = "div.col-xs-7.col-sm-8";
-//        String colValue = "div.col-xs-5.col-sm-4";
-//
-//        if (hardware.getFeature() == Hardware.Feature.RECOMMEND_WATT) {
-//            String phantomJsPath = PhantomJsDowloader.getPhantomJsPath();
-//            productDataRowNum = 3;
-//            colValueName = "div.after.col-xs-7.col-md-6";
-//            colValue = "div.col-xs-5.col-md-6";
-//        }
-//
-//        Element productThumb = doc.select(productDataRowName).get(productDataRowNum);
-//        List<Element> characteristicList = productThumb.select(colValueName);
-//        int characterNumber = 0;
-//
-//        for (Element element : characteristicList) {
-//            if (
-//                element.select("span").text()
-//                    .equals(hardware.getFeature().getName())
-//            ) {
-//                break;
-//            }
-//            characterNumber++;
-//        }
-//
-//        String value = productThumb.select(colValue).get(characterNumber).text();
-//
-//        return new HardwareFeature(hardware.getName(), value);
-//    }
-//
-
 }

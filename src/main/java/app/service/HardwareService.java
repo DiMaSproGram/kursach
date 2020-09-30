@@ -3,6 +3,8 @@ package app.service;
 import app.common.Expression;
 import app.entity.HardwareEntity;
 import app.payload.Hardware;
+import app.payload.Pagination;
+import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +18,7 @@ public interface HardwareService {
 
   List<HardwareEntity> getAllBySearching(String search, String type);
 
-  List<HardwareEntity> getAllBySearching(ArrayList<HardwareEntity> inputList, String search, String type);
+  List<HardwareEntity> getAllBySearching(ArrayList<HardwareEntity> inputList, String search, String type, Model model);
 
   List<HardwareEntity> getAllByPrice(double minPrice, double maxPrice, String type);
 
@@ -45,4 +47,6 @@ public interface HardwareService {
   HardwareEntity findById(int id);
 
   HardwareEntity findByName(String name);
+
+  void fillPaginationList(String type, ArrayList<ArrayList<HardwareEntity>> paginationList, ArrayList<Pagination> pagesMap);
 }

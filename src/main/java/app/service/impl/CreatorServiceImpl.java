@@ -31,17 +31,17 @@ public class CreatorServiceImpl implements CreatorService {
         ArrayList<Feature> featuresList
     ) {
         hardwareList = hardwareEntityList;
-        Goals goals;
-        if (goal.equals("1")) {
-            goals = Goals.FOR_GAMES;
-        }
-        else {
-            goals = Goals.FOR_WORK;
-        }
+        Goals goals = goal.equals("1")
+            ? Goals.FOR_GAMES
+            : Goals.FOR_WORK;
         LinkedList<HardwareEntity> linkedList = new LinkedList<>(hardwareEntityList);
 
         for (int i = 0; i < hardwareNumList.size(); ++i) {
-            if (!range.get(i).equals(hardwareNumList.get(i))) {
+            if (
+                !range.get(i).equals(
+                    hardwareNumList.get(i)
+                )
+            ) {
                 if (
                     getHardware(
                         getHardwareName(featureNameList.get(i)),
@@ -60,9 +60,17 @@ public class CreatorServiceImpl implements CreatorService {
                     );
                 }
 
-                linkedList.remove(getHardwareListPosition(hardwareEntityList, featureNameList.get(i)));
+                linkedList.remove(
+                    getHardwareListPosition(
+                        hardwareEntityList,
+                        featureNameList.get(i)
+                    )
+                );
                 linkedList.add(
-                    getHardwareListPosition(hardwareEntityList, featureNameList.get(i)),
+                    getHardwareListPosition(
+                        hardwareEntityList,
+                        featureNameList.get(i)
+                    ),
                     getHardware(
                         getHardwareName(featureNameList.get(i)),
                         featureNameList.get(i),
@@ -71,28 +79,21 @@ public class CreatorServiceImpl implements CreatorService {
                 );
             }
         }
+
         return new ArrayList<>(linkedList);
     }
 
     @Override
     public ArrayList<HardwareEntity> create(double price, String goal, boolean isSSD) {
         hardwareList = new ArrayList<>();
-        Goals goals;
+        Goals goals = goal.equals("1")
+            ? Goals.FOR_GAMES
+            : Goals.FOR_WORK;
         int i = 0;
         double bonusCoeff = 0;
 
-        if (goal.equals("1")) {
-            goals = Goals.FOR_GAMES;
-        }
-        else {
-            goals = Goals.FOR_WORK;
-        }
-
         for (Hardware hardware : Hardware.values()) {
-            if(!isSSD) {
-                if (hardware == Hardware.SSD) {
-                    continue;
-                }
+            if(!isSSD && !(hardware == Hardware.SSD)) {
                 if (
                     goals == Goals.FOR_GAMES && hardware == Hardware.VIDEO_CARD
                     || goals == Goals.FOR_WORK && hardware == Hardware.PROCESSOR
@@ -102,18 +103,26 @@ public class CreatorServiceImpl implements CreatorService {
             }
             if (
                 hardware == Hardware.COOLERS
-                && hardwareFeatureService
-                    .getByHardwareIdAndName(hardwareList.get(0).getId(), Hardware.Feature.BOX.getName())
+                && hardwareFeatureService.getByHardwareIdAndName(
+                        hardwareList.get(0).getId(),
+                        Hardware.Feature.BOX.getName()
+                    )
                     .getValue()
                     .equals("true")
             ) {
                 bonusCoeff = goals.arr[i];
                 continue;
             }
-            hardwareList.add(getHardware(price * (goals.arr[i] + bonusCoeff), hardware));
+            hardwareList.add(
+                getHardware(
+                    price * (goals.arr[i] + bonusCoeff),
+                    hardware
+                )
+            );
             i++;
             bonusCoeff = 0;
         }
+
         return hardwareList;
     }
 
@@ -126,17 +135,32 @@ public class CreatorServiceImpl implements CreatorService {
                 ArrayList<String> arr = new ArrayList<>(
                     Arrays.asList(
                         hardwareFeatureService
-                            .getByHardwareIdAndName(entity.getId(), Hardware.Feature.SOCKET.getName())
+                            .getByHardwareIdAndName(
+                                entity.getId(),
+                                Hardware.Feature.SOCKET.getName()
+                            )
                             .getValue()
                             .split(", ")
                     )
                 );
 
-                return arr.contains(hardwareFeatureService.getByHardwareIdAndName(hardwareList.get(0).getId(), Hardware.Feature.SOCKET.getName()).getValue());
+                return arr.contains(
+                    hardwareFeatureService.getByHardwareIdAndName(
+                        hardwareList.get(0).getId(),
+                        Hardware.Feature.SOCKET.getName()
+                    ).getValue()
+                );
             }
-            return hardwareFeatureService.getByHardwareIdAndName(hardwareList.get(0).getId(), Hardware.Feature.SOCKET.getName()).getValue().equals(
-                hardwareFeatureService.getByHardwareIdAndName(entity.getId(), Hardware.Feature.SOCKET.getName()).getValue()
-            );
+            return hardwareFeatureService.getByHardwareIdAndName(
+                    hardwareList.get(0).getId(),
+                    Hardware.Feature.SOCKET.getName()
+                ).getValue()
+                .equals(
+                    hardwareFeatureService.getByHardwareIdAndName(
+                        entity.getId(),
+                        Hardware.Feature.SOCKET.getName()
+                    ).getValue()
+                );
         }
         if (
             hardware.getFeature().contains(Hardware.Feature.RECOMMEND_WATT)
@@ -145,13 +169,19 @@ public class CreatorServiceImpl implements CreatorService {
             return Integer.parseInt(
                 StringUtils.trimRus(
                     hardwareFeatureService
-                        .getByHardwareIdAndName(entity.getId(), Hardware.Feature.RECOMMEND_WATT.getName())
+                        .getByHardwareIdAndName(
+                            entity.getId(),
+                            Hardware.Feature.RECOMMEND_WATT.getName()
+                        )
                         .getValue()
                 )
             ) <= Integer.parseInt(
                 StringUtils.trimRus(
                     hardwareFeatureService
-                        .getByHardwareIdAndName(hardwareList.get(getHardwarePosition(Hardware.Feature.WATT)).getId(), Hardware.Feature.WATT.getName())
+                        .getByHardwareIdAndName(
+                            hardwareList.get(getHardwarePosition(Hardware.Feature.WATT)).getId(),
+                            Hardware.Feature.WATT.getName()
+                        )
                         .getValue()
                 )
             );
@@ -160,13 +190,19 @@ public class CreatorServiceImpl implements CreatorService {
             return Integer.parseInt(
                 StringUtils.trimRus(
                     hardwareFeatureService
-                        .getByHardwareIdAndName(hardwareList.get(1).getId(), Hardware.Feature.RECOMMEND_WATT.getName())
+                        .getByHardwareIdAndName(
+                            hardwareList.get(1).getId(),
+                            Hardware.Feature.RECOMMEND_WATT.getName()
+                        )
                         .getValue()
                 )
             ) <= Integer.parseInt(
                 StringUtils.trimRus(
                     hardwareFeatureService
-                        .getByHardwareIdAndName(entity.getId(), Hardware.Feature.WATT.getName())
+                        .getByHardwareIdAndName(
+                            entity.getId(),
+                            Hardware.Feature.WATT.getName()
+                        )
                         .getValue()
                 )
             );
@@ -202,7 +238,6 @@ public class CreatorServiceImpl implements CreatorService {
                 tempPrice = hardwareEntity.getPrice();
                 if (
                     referencePrice <= tempPrice
-//                    && i == 0
                     && checkCompatibility(hardwareEntity, hardware)
                 ) {
                     titleSet.add(hardwareEntity);

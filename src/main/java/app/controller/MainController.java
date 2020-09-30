@@ -17,7 +17,6 @@ public class MainController {
 
     @GetMapping("/")
     public String main(@AuthenticationPrincipal User user, Model model) {
-
         model.addAttribute("active", user != null);
         return "main";
     }

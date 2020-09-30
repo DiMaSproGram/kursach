@@ -16,24 +16,26 @@
 <body style="background-color: #202020; padding-top: 0px;">
     <div id="menuBar" class="fixed-top"></div>
     <div class="container" style="margin-top: 200px;">
-        <form class="form-signin" th:action="@{/registration}" method="post">
+        <form class="form-signin" th:action="@{/registration}" method="post" style="max-width: 340px">
             <h2 class="form-signin-heading text-light">Регистрация</h2>
-            <p th:text="${message}"></p>
+            <div class="alert alert-warning" role="alert" th:if="${message != null}">
+                <p th:text="${message}" style="margin-bottom: 0;"></p>
+            </div>
             <p>
                 <label for="username" class="sr-only">Username</label>
-                <input type="text" id="username" name="username" class="form-control" placeholder="Имя пользователя" required minlength="4" autofocus="">
+                <input type="text" id="username" name="username"  th:value="${user.getUsername()}" class="form-control" placeholder="Имя пользователя"  autofocus="">
             </p>
             <p>
                 <label for="password" class="sr-only">Password</label>
-                <input type="password" id="password" name="password" class="form-control" placeholder="Пароль" required minlength="4">
+                <input type="password" id="password" name="password"  th:value="${user.getPassword()}" class="form-control" placeholder="Пароль" >
             </p>
             <input name="_csrf" type="hidden" value="63cb8ad8-001e-4071-9ca6-7a0bc7999308">
             <button class="btn btn-lg btn-primary btn-block btn-secondary" type="submit">Зарегистрироваться</button>
         </form>
     </div>
-    <footer id="footer" class="fixed-bottom page-footer font-small blue pt-4" style="background-color: black"></footer>
+    <footer id="footer" class="fixed-bottom page-footer font-small blue pt-4" style="background-color: black"></footer>\
+
     <script src="/js/menubar.js"></script>
-    <script src="/js/account.js" th:if="${active}"></script>
-    <script src="/js/loginbtn.js" th:if="${not active}"></script>
+    <script src="/js/loginbtn.js" ></script>
 </body>
 </html>

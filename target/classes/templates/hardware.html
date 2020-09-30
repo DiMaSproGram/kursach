@@ -83,19 +83,19 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center pagination-lg" style="margin-top: 20px; margin-bottom: 40px;">
             <li th:class="${currentPage == 1} ? 'page-item disabled' : 'page-item'">
-                <a class="page-link text-light bg-secondary" th:href="${pages.get(previousPage - 1)}" aria-label="Previous">
+                <a class="page-link text-light bg-secondary" th:href="${pages.get(previousPage - 1).getHref()}" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
             <li class="page-item" th:each="page : ${pages}">
                 <a class="page-link text-light"
                    th:style="${page.equals(pages.get(currentPage - 1))} ? 'background-color: #474747;' : 'background-color: #6c757d'"
-                   th:href="${page}"
-                   th:text="${page.split('/')[3]}"
+                   th:href="${page.getHref()}"
+                   th:text="${page.getPageNum()}"
                 ></a>
             </li>
             <li th:class="${currentPage == pages.size()} ? 'page-item disabled' : 'page-item'">
-                <a class="page-link text-light bg-secondary" th:href="${pages.get(nextPage - 1)}" aria-label="Next">
+                <a class="page-link text-light bg-secondary" th:href="${pages.get(nextPage - 1).getHref()}" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>

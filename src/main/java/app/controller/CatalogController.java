@@ -5,6 +5,7 @@ import app.entity.HardwareEntity;
 import app.entity.User;
 import app.payload.Feature;
 import app.payload.Hardware;
+import app.payload.Pagination;
 import app.service.*;
 import app.service.impl.HardwareFeatureService;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class CatalogController {
     private String type;
     private HashMap<String, Feature> featuresMap = new HashMap<>();
     private ArrayList<ArrayList<HardwareEntity>> paginationList = new ArrayList<>();
-    private ArrayList<String> pagesMap = new ArrayList<>();
+    private ArrayList<Pagination> pagesMap = new ArrayList<>();
     private int page;
 
     @GetMapping
@@ -40,23 +41,21 @@ public class CatalogController {
     public String hardwares(@PathVariable("path") String path, @AuthenticationPrincipal User user, Model model) {
         type = path;
         page = 1;
+
         if (!featuresMap.isEmpty()) {
             featuresMap = new HashMap<>();
         }
+
         if (
             !Hardware.valueOf(type.toUpperCase())
                 .getFeature()
                 .contains(Hardware.Feature.NONE)
         ) {
-            Hardware.valueOf(type.toUpperCase()).getFeature().forEach(
-                feature -> featuresMap.put(
-                    Hardware.Feature.valueOf(feature.getName().toUpperCase()).getParsingName(), new Feature(
-                        feature.getName(), hardwareFeatureService.getValuesByName(feature.getName())
-                    )
-                )
-            );
+            featuresMap = hardwareFeatureService.getAllFeature(type);
         }
-        fillPaginationList(hardwareService.getAllByType(path));
+
+        hardwareService.fillPaginationList(type, paginationList, pagesMap);
+
         model.addAttribute("filters", featuresMap);
         model.addAttribute("hardwares", paginationList.get(0));
         model.addAttribute("type", type);
@@ -69,27 +68,29 @@ public class CatalogController {
     }
 
     @GetMapping("/{path}/{page}")
-    public String hardwares(@PathVariable("path") String path, @PathVariable("page") String page, @AuthenticationPrincipal User user, Model model) {
+    public String hardwares(
+        @PathVariable("path") String path,
+        @PathVariable("page") String page,
+        @AuthenticationPrincipal User user,
+        Model model
+    ) {
         type = path;
         this.page = Integer.parseInt(page);
 
         if (!featuresMap.isEmpty()) {
             featuresMap = new HashMap<>();
         }
+
         if (
             !Hardware.valueOf(type.toUpperCase())
                 .getFeature()
                 .contains(Hardware.Feature.NONE)
         ) {
-            Hardware.valueOf(type.toUpperCase()).getFeature().forEach(
-                feature -> featuresMap.put(
-                    Hardware.Feature.valueOf(feature.getName().toUpperCase()).getParsingName(), new Feature(
-                        feature.getName(), hardwareFeatureService.getValuesByName(feature.getName())
-                    )
-                )
-            );
+            featuresMap = hardwareFeatureService.getAllFeature(type);
         }
-        fillPaginationList(hardwareService.getAllByType(path));
+
+        hardwareService.fillPaginationList(type, paginationList, pagesMap);
+
         model.addAttribute("filters", featuresMap);
         model.addAttribute("hardwares", paginationList.get(this.page - 1));
         model.addAttribute("type", type);
@@ -113,18 +114,26 @@ public class CatalogController {
     }
 
     @PostMapping("/{path}/{page}/search")
-    public String search(@PathVariable("path") String path, @PathVariable("page") String page, @RequestParam String search, @AuthenticationPrincipal User user, Model model) throws InterruptedException {
-        List<HardwareEntity> hardwares;
+    public String search(
+        @PathVariable("path") String path,
+        @PathVariable("page") String page,
+        @RequestParam String search,
+        @AuthenticationPrincipal User user,
+        Model model
+    ) throws InterruptedException {
+        List<HardwareEntity> hardwares = hardwareService.getAllBySearching(
+            paginationList.get(this.page - 1),
+            search,
+            type,
+            model
+        );
 
-        if (search != null && !search.isEmpty()) {
-            hardwares = hardwareService.getAllBySearching(paginationList.get(this.page - 1), search, type);
-        } else {
-            hardwares = paginationList.get(this.page - 1);
-        }
-
-        if (hardwares.isEmpty())
-            model.addAttribute("error", "Подходящих комплектующих не найдено");
-//        fillPaginationList(hardwareService.getAllByType(type));
+        model.addAttribute(
+            "error",
+            hardwares.isEmpty()
+                ? "Подходящих комплектующих не найдено"
+                : ""
+        );
         model.addAttribute("filters", featuresMap);
         model.addAttribute("hardwares", hardwares);
         model.addAttribute("type", type);
@@ -148,23 +157,45 @@ public class CatalogController {
     }
 
     @PostMapping("/{path}/{page}/filter")
-    public String filter(@PathVariable("path") String path, @PathVariable("page") String page, @RequestParam String minPriceS, @RequestParam String maxPriceS, @AuthenticationPrincipal User user, Model model, @RequestParam String ...features) throws InterruptedException {
+    public String filter(
+        @PathVariable("path") String path,
+        @PathVariable("page") String page,
+        @RequestParam String minPriceS,
+        @RequestParam String maxPriceS,
+        @AuthenticationPrincipal User user,
+        Model model,
+        @RequestParam String ...features
+    ) throws InterruptedException {
         List<HardwareEntity> hardwares;
-        if (minPriceS.isEmpty() && maxPriceS.isEmpty() && StringUtils.haveAllStrings("", Arrays.asList(features))) {
+
+        if (
+            minPriceS.isEmpty()
+            && maxPriceS.isEmpty()
+            && StringUtils.haveAllStrings("", Arrays.asList(features))
+        ) {
             hardwares = paginationList.get(this.page - 1);
         } else {
             double minPrice = minPriceS.isEmpty() ? 0 : Double.parseDouble(minPriceS);
             double maxPrice = maxPriceS.isEmpty() ? 0 : Double.parseDouble(maxPriceS);
 
-            hardwares = hardwareService.filterByAll(paginationList.get(this.page - 1), minPrice, maxPrice, Arrays.asList(features), type);
+            hardwares = hardwareService.filterByAll(
+                paginationList.get(this.page - 1),
+                minPrice,
+                maxPrice,
+                Arrays.asList(features),
+                type
+            );
 
             model.addAttribute("minPrice", minPrice);
             model.addAttribute("maxPrice", maxPrice);
         }
-        if (hardwares.isEmpty()) {
-            model.addAttribute("error", "Подходящих комплектующих не найдено");
-        }
 
+        model.addAttribute(
+            "error",
+            hardwares.isEmpty()
+                ? "Подходящих комплектующих не найдено"
+                : ""
+        );
         model.addAttribute("filters", featuresMap);
         model.addAttribute("hardwares", hardwares);
         model.addAttribute("pages", pagesMap);
@@ -187,22 +218,5 @@ public class CatalogController {
         return "hardware";
     }
 
-    private void fillPaginationList(List<HardwareEntity> hardwareList) {
-        paginationList.clear();
-        pagesMap.clear();
-        ArrayList<HardwareEntity> tempList = new ArrayList<>();
 
-        for (int i = 0; i < hardwareList.size(); ++i){
-            if (i > 19 && i % 20 == 0) {
-                paginationList.add(new ArrayList<>(tempList));
-                pagesMap.add("/catalog/" + type + "/" + paginationList.size());
-                tempList.clear();
-            }
-            tempList.add(hardwareList.get(i));
-        }
-        if (!tempList.isEmpty()) {
-            paginationList.add(new ArrayList<>(tempList));
-            pagesMap.add("/catalog/" + type + "/" + paginationList.size());
-        }
-    }
 }
