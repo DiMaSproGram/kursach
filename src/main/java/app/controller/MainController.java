@@ -1,5 +1,6 @@
 package app.controller;
 
+import app.entity.Role;
 import app.entity.User;
 import app.service.ParserService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,9 @@ public class MainController {
 
     @GetMapping("/")
     public String main(@AuthenticationPrincipal User user, Model model) {
+        if(user != null && user.getRoles().contains(Role.ADMIN)) {
+            return "redirect:http://localhost:3000";
+        }
         model.addAttribute("active", user != null);
         return "main";
     }
