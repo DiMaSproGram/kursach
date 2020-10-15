@@ -18,12 +18,18 @@ import java.util.Set;
 @Table(name = "my_user")
 public class User extends AbstractEntity implements UserDetails  {
 
+    @Column(name = "username")
     public String username;
+
+    @Column(name = "password")
     public String password;
+
+    @Column(name = "enabled")
     public boolean enabled;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @CollectionTable(name = "user_role",
+        joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 

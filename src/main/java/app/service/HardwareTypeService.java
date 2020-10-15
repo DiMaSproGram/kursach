@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.Date;
 
 @Service
 public class HardwareTypeService extends AbstractService<HardwareType, HardwareTypeRepo> {
@@ -24,7 +25,7 @@ public class HardwareTypeService extends AbstractService<HardwareType, HardwareT
     public void createHardwareType() {
         if(new ArrayList<>((ArrayList<HardwareType>)this.getAll()).size() == 0) {
             for(Hardware hardware : Hardware.values()) {
-                repository.save(new HardwareType(hardware.getName()));
+                repository.save(new HardwareType(hardware.getName(), new Date()));
             }
         }
     }

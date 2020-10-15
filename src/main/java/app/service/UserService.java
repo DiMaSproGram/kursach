@@ -1,6 +1,7 @@
 package app.service;
 
 import app.common.service.AbstractService;
+import app.entity.HardwareEntity;
 import app.entity.HardwareType;
 import app.entity.Role;
 import app.entity.User;
@@ -15,7 +16,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class UserService extends AbstractService<User, UserRepo> implements UserDetailsService {
@@ -42,11 +46,24 @@ public class UserService extends AbstractService<User, UserRepo> implements User
         }
         user.setEnabled(true);
         user.setRoles(Collections.singleton(Role.USER));
+        user.setDateCreated(new Date());
+        user.setDateUpdated(new Date());
         user.setPassword(
             new BCryptPasswordEncoder(11)
                 .encode(user.getPassword())
         );
+
         repository.save(user);
         return true;
+    }
+
+    public List<User> getAllBySearching(String search) {
+        ArrayList<User> arrayList = (ArrayList<User>) repository.findAll();
+        arrayList.removeIf(
+            elem -> !elem.getUsername().replaceAll(" ", "").toLowerCase().contains(
+                search.replaceAll(" ", "").toLowerCase()
+            )
+        );
+        return arrayList;
     }
 }

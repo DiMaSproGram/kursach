@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class AssemblyService extends AbstractService<Assembly, AssemblyRepo> {
     }
 
     public void save(HardwareEntity[] arr, User user, double totalPrice) {
-        Assembly assembly = new Assembly( user, totalPrice);
+        Assembly assembly = new Assembly( user, totalPrice, new Date());
         repository.save(assembly);
         assemblyHardwareService.save(assembly, arr);
     }

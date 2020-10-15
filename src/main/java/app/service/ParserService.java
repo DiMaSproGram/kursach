@@ -14,6 +14,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -24,6 +25,7 @@ import java.net.URL;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +37,7 @@ public class ParserService {
 
     boolean isDefect = false;
 
-//    @Scheduled(fixedRate = 604800000)
+    @Scheduled(fixedRate = 604800000)
     public void start() {
         System.out.println(LocalTime.now());
 
@@ -77,7 +79,8 @@ public class ParserService {
                 hardwarePayload.getPrice(),
                 hardwarePayload.getImage(),
                 hardwarePayload.getLink(),
-                hardwareTypeService.findByName(hardware.getName())
+                hardwareTypeService.findByName(hardware.getName()),
+                new Date()
             );
 
             if (!hardware.getFeature().contains(Hardware.Feature.NONE)) {
@@ -89,7 +92,9 @@ public class ParserService {
             if (!isDefect){
                 hardwareService.addHardware(hardwareEntity);
                 for (HardwareFeature feature : featureList) {
-                    feature.setHardwareEntity(hardwareService.findByName(hardwareEntity.getName()));
+                    feature.setHardwareEntity(
+                        hardwareService.findByName(hardwareEntity.getName())
+                    );
                     hardwareFeatureService.addHardwareFeature(feature);
                 }
             }
@@ -108,7 +113,8 @@ public class ParserService {
                 hardwareEntity.getName().endsWith("(BOX)")
                 ? "true"
                 : "false",
-                hardwareService.findByName(hardwareEntity.getName())
+                hardwareService.findByName(hardwareEntity.getName()),
+                new Date()
             );
         }
         Document doc = Jsoup.parse(doRequest(hardwareUrl, "GET"));
@@ -140,7 +146,8 @@ public class ParserService {
         return new HardwareFeature(
             feature.getName(),
             StringUtils.trimParenthesesContent(value),
-            hardwareService.findByName(hardwareEntity.getName())
+            hardwareService.findByName(hardwareEntity.getName()),
+            new Date()
         );
     }
 

@@ -14,22 +14,20 @@ import java.util.*;
 @Service
 public class HardwareFeatureService extends AbstractService<HardwareFeature, HardwareFeatureRepo> {
 
-  private final HardwareFeatureRepo hardwareFeatureRepo;
   private final AssemblyHardwareService assemblyHardwareService;
 
   @Autowired
-  public HardwareFeatureService(HardwareFeatureRepo repository, HardwareFeatureRepo hardwareFeatureRepo, AssemblyHardwareService assemblyHardwareService) {
+  public HardwareFeatureService(HardwareFeatureRepo repository, AssemblyHardwareService assemblyHardwareService) {
     super(repository);
-    this.hardwareFeatureRepo = hardwareFeatureRepo;
     this.assemblyHardwareService = assemblyHardwareService;
   }
 
   public HardwareFeature getByHardwareIdAndName(int id, String name) {
-    return hardwareFeatureRepo.findByHardwareEntityIdAndName(id, name);
+    return repository.findByHardwareEntityIdAndName(id, name);
   }
 
   public ArrayList<HardwareFeature> getByHardwareEntityId(int id) {
-    ArrayList<HardwareFeature> list = (ArrayList<HardwareFeature>) hardwareFeatureRepo.findAll();
+    ArrayList<HardwareFeature> list = (ArrayList<HardwareFeature>) repository.findAll();
     list.removeIf(el -> el.getHardwareEntity().getId() != id);
     return list;
   }
@@ -59,11 +57,11 @@ public class HardwareFeatureService extends AbstractService<HardwareFeature, Har
   }
 
   public Iterable<HardwareFeature> getAllByName(String name) {
-    return hardwareFeatureRepo.findAllByName(name);
+    return repository.findAllByName(name);
   }
 
   public Iterable<HardwareFeature> getAllByNameAndValue(String name, String val) {
-    return hardwareFeatureRepo.findAllByNameAndValue(name, val);
+    return repository.findAllByNameAndValue(name, val);
   }
 
   public void fillFeatureNameListAndFeaturesList(
@@ -114,7 +112,7 @@ public class HardwareFeatureService extends AbstractService<HardwareFeature, Har
 
   public TreeSet<String> getValuesByName(String name) {
     TreeSet<String> valueSet = new TreeSet<>(Hardware.Feature.valueOf(name.toUpperCase()).getComporator());
-    List<HardwareFeature> list = (List<HardwareFeature>) hardwareFeatureRepo.findAllByName(name);
+    List<HardwareFeature> list = (List<HardwareFeature>) repository.findAllByName(name);
 
     for (HardwareFeature feature : list) {
       if (feature.getValue().split(", ").length > 0) {
@@ -129,7 +127,7 @@ public class HardwareFeatureService extends AbstractService<HardwareFeature, Har
   public void addHardwareFeature(HardwareFeature hardwareFeature) {
     ArrayList<HardwareEntity> hardwareListFromAssemble = assemblyHardwareService.getAllHardware();
     if (!hardwareListFromAssemble.contains(hardwareFeature.getHardwareEntity())) {
-      hardwareFeatureRepo.save(hardwareFeature);
+      repository.save(hardwareFeature);
     }
   }
 
@@ -138,14 +136,24 @@ public class HardwareFeatureService extends AbstractService<HardwareFeature, Har
     HashSet<HardwareEntity> hardwareListFromAssemble = assemblyHardwareService.getAllHardwareSet();
 
     for (HardwareEntity hardware : hardwareList) {
-      if (!hardwareListFromAssemble.contains(hardware)) {
-        hardwareFeatureRepo.deleteAll(
+//      if (!hardwareListFromAssemble.contains(hardware)) {
+      if (!myContains(hardwareListFromAssemble, hardware)) {
+        repository.deleteAll(
             getByHardwareEntityId(
                 hardware.getId()
             )
         );
       }
     }
+  }
+
+  public boolean myContains(HashSet<HardwareEntity> hardwareListFromAssemble, HardwareEntity hardware) {
+    for (HardwareEntity element : hardwareListFromAssemble) {
+      if (element.equals(hardware)){
+        return true;
+      }
+    }
+    return false;
   }
 
   public int getInt(Feature features, HardwareFeature feature) {

@@ -8,6 +8,7 @@ import app.repository.AssemblyHardwareRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 
 @Service
@@ -19,7 +20,7 @@ public class AssemblyHardwareService extends AbstractService<AssemblyHardware, A
 
   public void save(Assembly assembly, HardwareEntity[] hardwareEntity) {
     for (HardwareEntity hardware : hardwareEntity) {
-      repository.save(new AssemblyHardware(assembly, hardware));
+      repository.save(new AssemblyHardware(assembly, hardware, new Date()));
     }
   }
 

@@ -1,7 +1,8 @@
 package app.admin.service;
 
-import app.admin.payload.AdminResponse;
-import app.data.UserData;
+import app.admin.payload.AdminSearchRequest;
+import app.admin.payload.GetAllUsersResponse;
+import app.admin.data.UserData;
 import app.entity.User;
 import app.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +16,8 @@ public class AdminService {
 
   public final UserService userService;
 
-  public AdminResponse getAllUsers() {
-    AdminResponse adminResponse = new AdminResponse();
+  public GetAllUsersResponse getAllUsers() {
+    GetAllUsersResponse getAllUsersResponse = new GetAllUsersResponse();
     ArrayList<User> userList = (ArrayList<User>) userService.findAll();
     ArrayList<UserData> userDataList = new ArrayList<>();
 
@@ -25,9 +26,26 @@ public class AdminService {
             new UserData(user)
         )
     );
-    adminResponse.setList(userDataList);
+    getAllUsersResponse.setList(userDataList);
 
-    return adminResponse;
+    return getAllUsersResponse;
+  }
+
+  public GetAllUsersResponse getAllUsersBySearching(AdminSearchRequest adminSearchRequest) {
+    GetAllUsersResponse getAllUsersResponse = new GetAllUsersResponse();
+    ArrayList<User> usersList = (ArrayList<User>) userService.getAllBySearching(
+        adminSearchRequest.getUserName()
+    );
+    ArrayList<UserData> resultList = new ArrayList<>();
+
+    usersList.forEach(
+        el -> resultList.add(
+            new UserData(el)
+        )
+    );
+    getAllUsersResponse.setList(resultList);
+
+    return getAllUsersResponse;
   }
 
 }
